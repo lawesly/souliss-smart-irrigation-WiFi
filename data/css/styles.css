@@ -1,0 +1,117 @@
+body {
+	font-size: 14pt;
+	font-family: Comfortaa, cursive;
+}
+#body {
+    clear: both;
+    margin: 0 auto;
+    max-width: 1024px;
+}
+div {
+	font-family: 'Comfortaa', cursive;
+	font-weight:bold; 
+	font-size:14pt; 
+}
+
+inputtime {
+	font-family: Comfortaa, cursive;
+	font-weight: bold;
+	font-size: 16pt;
+	width: 100px;
+	border-radius: 5px;
+	box-shadow: inset 0 0 5px rgba(000,000,000, 1);
+	text-align: left;
+}
+
+
+body td {
+	padding: 10px 1px 5px 1px;
+	font-family: Comfortaa, cursive;
+	text-align: left;
+}
+table[id="temp"]{
+	font-family: 'Comfortaa', cursive;
+	font-weight:bold; 
+	font-size:14pt; 
+}
+input[type="submit"] {
+   border: 0 !important;  /*Removes border*/
+   -webkit-appearance: none;  /*Removes default chrome and safari style*/
+   -moz-appearance: none; /* Removes Default Firefox style*/
+        /*background-color: #0088cc /*url(img/select-arrow.png) no-repeat 90% center;*/
+        width: 100px; /*Width of select dropdown to give space for arrow image*/
+        height:30px;
+	text-indent: 10px; /* Removes default arrow from firefox*/
+        text-overflow: "";  /*Removes default arrow from firefox*/ /*My custom style for fonts*/
+        color: #000;
+        border-radius: 15px;
+        padding: 1px;
+        box-shadow: inset 0 0 5px rgba(000,000,000, 1);
+	background-color:rgba(21,199,238,1); /* colore di sfondo    testo    */
+	font-family: 'Comfortaa', cursive;
+	font-size:0.8em;
+	font-weight: bold;         /* testo in grassetto  */
+
+}
+input[type="submit"]:hover{
+	background-color: #F3AC25;
+}
+caption {
+  font-family: 'Comfortaa', cursive;
+  font-size:16pt;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: inset 0 0 5px rgba(000,000,000, 1);
+  /*border-style: solid;
+  border-width: 1px;
+  border-color: #666666;*/
+  background-color:rgba(21,199,238,0.3);
+}
+
+
+
+.inserimento {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: 1;
+	border-right-style: 1;
+	border-bottom-style: 1;
+	border-left-style: 1;
+	font-family: Comfortaa, cursive;
+	font-weight: bold;
+	
+}
+.inserimento {
+	font-family: Comfortaa, cursive;
+	text-align: right;
+}
+.checkbox {
+	font-family: Verdana, Geneva, sans-serif;
+	input[type="checkbox"] {
+    display:none;
+	width:19px;
+    height:19px;
+    margin:-2px 10px 0 0;
+	border-radius: 0;
+  	box-shadow: none;
+}
+}
+.orario {
+	font-size: 12pt;
+	font-family: Comfortaa, cursive;
+}
+.nomeprogramma {
+	text-align: left;
+	font-family: Comfortaa, cursive;
+}
+.elenco {
+	text-align: left;
+}
+.intestazione {
+	text-align: center;
+}
+.intestazione {
+	font-weight: bold;
+}
