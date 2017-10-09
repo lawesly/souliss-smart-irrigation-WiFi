@@ -3,8 +3,7 @@ body{
 }
 div {
     font-family: 'Comfortaa', cursive;
-    width:500px;
-    height:800px;
+    width:950px;
     padding:0;
     text-align:center;
     margin:0 auto;
@@ -15,9 +14,20 @@ div {
 table{
 	margin:10px ;
 	text-align:center;
-	padding:10px;
-	width:480px;
+	padding:0px;
+	width:950px;
 	font-family: 'Comfortaa', cursive;
+	
+	
+}
+tabellamodifica
+{
+	border:1;
+	margin:10px ;
+	text-align:center;
+	font-family: 'Comfortaa', cursive;
+  
+  
 	
 }
 input[type="submit"] {
@@ -65,120 +75,27 @@ select {
 select:hover{
 	background-color: #F3AC25;
 }
-
-#hum{         /* Centrale*/
-	font-size:8em;
-	border:0;
-	position:relative;
-	top:-10px;
-	left:-45px;
-	color:rgba(21,199,238,1);
-	background-color:rgba(1,1,1,0);	
+#titolo{
+  margin: auto;
+  text-align: center; 
+  width: 300px; 
+  font-family: 'Segoe UI'; 
+  font-size: 18pt; 
+  font-weight: bold; 
+  color: rgba(21,199,238,1); 
+  background-color: white"  
 }
-#temp1{
-	font-size:2.5em;
-	border:0;
-	position:relative;
-	top:-18px;
-	left: 30px;
-	color:rgba(0,148,148,1);
-	background-color:rgba(1,1,1,0);	
-}
-#spoint{ /*setpoint*/
-	font-size:4em;
-	border:0;
-	position:relative;
-	top:25px;
-	right:280px;
-	color:rgba(229,116,46,1);
-	background-color:rgba(1,1,1,0);	
+.intestazionetabella{
+  font-family: 'Comfortaa'; 
+  font-size: 14pt; 
+} 
+.testotabella{
+  font-family: 'Comfortaa'; 
+  font-size: 12pt; 
+} 
+.titolimodifica{
+  font-family: 'Comfortaa'; 
+  font-size: 9pt; 
+  text-align:left;
 }
 
-#valv1{
-	font-size:1em;
-	border:0;
-	position:relative;
-	bottom:25px;
-	right:-110px;
-	color:rgba(128,128,128,1);
-	background-color:rgba(1,1,1,0);	
-}
-#valv2{
-	font-size:1em;
-	border:0;
-	position:relative;
-	bottom:25px;
-	right:-45px;
-	color:rgba(128,128,128,1);
-	background-color:rgba(1,1,1,0);	
-}
-#valv3{
-	font-size:1em;
-	border:0;
-	position:relative;
-	bottom:28px;
-	right:-110px;
-	color:rgba(128,128,128,1);
-	background-color:rgba(1,1,1,0);	
-}
-#valv4{
-	font-size:1em;
-	border:0;
-	position:relative;
-	bottom:28px;
-	right:-45px;
-	color:rgba(128,128,128,1);
-	background-color:rgba(1,1,1,0);	
-}
-#valv5{
-	font-size:1em;
-	border:0;
-	position:relative;
-	bottom:29px;
-	right:-110px;
-	color:rgba(128,128,128,1);
-	background-color:rgba(1,1,1,0);	
-}
-#valv6{
-	font-size:1em;
-	border:0;
-	position:relative;
-	bottom:29px;
-	right:-45px;
-	color:rgba(128,128,128,1);
-	background-color:rgba(1,1,1,0);	
-}
-#valv7{
-	font-size:1em;
-	border:0;
-	position:relative;
-	bottom:27px;
-	right:-110px;
-	color:rgba(128,128,128,1);
-	background-color:rgba(1,1,1,0);	
-}
-#valv8{
-	font-size:1em;
-	border:0;
-	position:relative;
-	bottom:27px;
-	right:-45px;
-	color:rgba(128,128,128,1);
-	background-color:rgba(1,1,1,0);	
-}
-#oggi{
-	font-size:1.9em;
-	color:rgba(21,199,238,1);
-	position:relative;
-	bottom:3px;
-	left:25px;
-}
-#intesta{
-	height:20px;
-	font-size:3em;
-	color:rgba(21,199,238,1);
-}	
-#pulsanti{
-	position:relative;
-	bottom:-60px;
-}

@@ -133,50 +133,59 @@
    </head>
 	
    <body>
-      <p style="titolo" id="titolo">SSI Nuovo Programma</p>
+      <p style="titolo" id="titolo">SSI Inserimento Programmi</p>
       
        <form action="">
 
-	<table width="950" border="0" align="center" cellpadding="0" cellspacing="10">
+	<table width="27%" border="0">
 	  <tr>
-	    <td width="25%" class="inserimento">Programma:</td>
-	    <td colspan="3" align="left"><label for="programma"></label>
-        <input name="programma" type="text" class="testotabella" id="programma"  size="80" maxlength="100"></td>
+	    <td width="42%" class="inserimento">Programma:</td>
+	    <td width="58%" align="left"><label for="programma"></label>
+        <input name="programma" type="text" class="testotabella" id="programma"  size="25" maxlength="100"></td>
       </tr>
 	  <tr>
 	    <td class="inserimento">Inizio:</td>
-	    <td width="18%" align="left"><input name="orainizio" type="time" class="testotabella" value="00:00" id="orainizio"></td>
-	    <td width="18%" align="right" class="aaa"><span class="inserimento">Fine:</span></td>
-	    <td width="39%" align="left"><input name="orafine" type="time" class="testotabella" value="00:00" id="orafine"></td>
+	    <td align="left"><input name="orainizio" type="time" class="testotabella" value="00:00" id="orainizio"></td>
+      </tr>
+	  <tr class="inserimento">
+	    <td class="inserimento">Fine:</td>
+	    <td align="left"><input name="orafine" type="time" class="testotabella" value="00:00" id="orafine"></td>
       </tr>
 	  <tr class="inserimento">
 	    <td class="inserimento">Giorni :</td>
-	    <td colspan="3" align="left">
+	    <td align="left">
           <table width="101%" border="0">
             <tr>
               <td><p>
                <INPUT TYPE="checkbox" NAME="tuttigiorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="tuttigiorni">Tutti
-                <INPUT TYPE="checkbox" NAME="lun" class="checkbox" value="off" style="font-family:Comfortaa;" id="lun">Lunedi
-                <INPUT TYPE="checkbox" NAME="mar" class="checkbox" value="off" style="font-family:Comfortaa;" id="mar">Martedi
-                <INPUT TYPE="checkbox" NAME="mer" class="checkbox" value="off" style="font-family:Comfortaa;" id="mer">Mercoledi
-                <INPUT TYPE="checkbox" NAME="gio" class="checkbox" value="off" style="font-family:Comfortaa;" id="gio">Giovedi
-                <INPUT TYPE="checkbox" NAME="ven" class="checkbox" value="off" style="font-family:Comfortaa;" id="ven">Venerdi
-                <INPUT TYPE="checkbox" NAME="sab" class="checkbox" value="off" style="font-family:Comfortaa;" id="sab">Sabato
-                <INPUT TYPE="checkbox" NAME="dom" class="checkbox" value="off" style="font-family:Comfortaa;" id="dom">Domen.
+                <INPUT TYPE="checkbox" NAME="lun" class="checkbox" value="off" style="font-family:Comfortaa;" id="lun">
+                Lun
+                <INPUT TYPE="checkbox" NAME="mar" class="checkbox" value="off" style="font-family:Comfortaa;" id="mar">
+                Mar<br>
+<INPUT TYPE="checkbox" NAME="mer" class="checkbox" value="off" style="font-family:Comfortaa;" id="mer">
+Mer
+                <INPUT TYPE="checkbox" NAME="gio" class="checkbox" value="off" style="font-family:Comfortaa;" id="gio">
+                Gio
+                <INPUT TYPE="checkbox" NAME="ven" class="checkbox" value="off" style="font-family:Comfortaa;" id="ven">
+                Ven<br>
+<INPUT TYPE="checkbox" NAME="sab" class="checkbox" value="off" style="font-family:Comfortaa;" id="sab">
+Sab
+                <INPUT TYPE="checkbox" NAME="dom" class="checkbox" value="off" style="font-family:Comfortaa;" id="dom">
+                Dom.
                </p></td>
             </tr>
         </table></td>
       </tr>
 	  <tr>
 	    <td class="inserimento">Valvole:</td>
-	    <td colspan="3" align="left"><table width="101%" border="0">
+	    <td align="left"><table width="101%" border="0">
 	      <tr>
 	        <td><p>
 	          <INPUT NAME="tuttevalvole" TYPE="checkbox" VALUE="1" checked id="tuttevalvole">Tutte
 	          <INPUT TYPE="checkbox" NAME="valvola1" class="checkbox" VALUE="off" id="valvola1">1
 	          <INPUT TYPE="checkbox" NAME="valvola2" class="checkbox" VALUE="off" id="valvola2">2
 	          <INPUT TYPE="checkbox" NAME="valvola3" class="checkbox" VALUE="off" id="valvola3">3
-	          <INPUT TYPE="checkbox" NAME="valvola4" class="checkbox" VALUE="off" id="valvola4">4
+	          <INPUT TYPE="checkbox" NAME="valvola4" class="checkbox" VALUE="off" id="valvola4">4<br>
 	          <INPUT TYPE="checkbox" NAME="valvola5" class="checkbox" VALUE="off" id="valvola5">5
 	          <INPUT TYPE="checkbox" NAME="valvola6" class="checkbox" VALUE="off" id="valvola6">6
 	          <INPUT TYPE="checkbox" NAME="valvola7" class="checkbox" VALUE="off" id="valvola7">7
@@ -188,7 +197,7 @@
       </tr>
 	  <tr>
 	    <td class="inserimento">Attivo:</td>
-	    <td colspan="3" align="left"><p>
+	    <td align="left"><p>
           <label>
             <input type="radio" name="programmaattivo" value="1" id="programmaattivosi" checked>
           Si</label>
@@ -206,9 +215,9 @@
     
   
      
-       <div align="center" style = " width:950px; background-position:center; margin:0 auto;" >
+       <div align="center" style = " width:250px; background-position:center; margin:0 auto;" >
 		<p></p>
-		<input type="submit" value="SSI Home" onclick="window.location = './index.htm';" /				>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+		<input type="submit" value="Home" onclick="window.location = './index.htm';" /				>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
 		<input type="submit" value="Salva" onclick="saveNewProgramma();" />
 		<p></p>
        </div>
