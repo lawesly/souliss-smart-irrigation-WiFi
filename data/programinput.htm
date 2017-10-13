@@ -49,7 +49,9 @@
 		Valvola6=0;
 		Valvola7=0;
 		Valvola8=0;
+		
 		// Assegnamo i dati 
+		
 		Programma=document.getElementById("programma").value;
 
 		if(document.getElementById("programmaattivosi").checked){
@@ -113,10 +115,14 @@
 		if(document.getElementById("valvola8").checked){
 			Valvola8=1;
 		}
+		
+		
 		sched_json="{ \"Programma\": \""+Programma+"\" , \"Attivo\": "+Attivo+",\"Inizio\": \""+Inizio+"\"  ,\"Fine\": \""+Fine+"\" , \"TuttiGiorni\": "+TuttiGiorni+", \"Lunedi\": "+Lunedi+",\"Martedi\": "+Martedi+" , \"Mercoledi\": "+Mercoledi+",\"Giovedi\": "+Giovedi+"  ,\"Venerdi\": "+Venerdi+" , \"Sabato\": "+Sabato+", \"Domenica\": "+Domenica+",\"TutteValvole\": "+TutteValvole+" , \"Valvola1\": "+Valvola1+",\"Valvola2\": "+Valvola2+"  ,\"Valvola3\": "+Valvola3+" , \"Valvola4\": "+Valvola4+", \"Valvola5\": "+Valvola5+", \"Valvola6\": "+Valvola6+" , \"Valvola7\": "+Valvola7+",\"Valvola8\": "+Valvola8+"}\n";
 		console.log(sched_json);
 				
 		//salviamo m andando in POST
+		
+		
 		$.ajax( "programinput", {
 			data: sched_json,
 			contentType: 'application/json',
@@ -128,7 +134,24 @@
 		});
 		//window.location.reload();
 	 }
-      </script>	
+      
+	  function ckChange(ckType) {
+	  var ckName = document.getElementsByName(ckType.name);
+
+		for (var i = 0; i < ckName.length; i++) {
+			if (!ckType.checked) {
+			ckName[i].disabled = false;
+			} else {
+				if (!ckName[i].checked) {
+				ckName[i].disabled = true;
+				} else {
+				ckName[i].disabled = false;
+				}
+			}
+		}
+	}
+	  
+	  </script>	
 	   
    </head>
 	
@@ -155,14 +178,14 @@
           <table width="101%" border="0">
             <tr>
               <td><p>
-               <INPUT TYPE="checkbox" NAME="tuttigiorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="tuttigiorni">Tutti
-                <INPUT TYPE="checkbox" NAME="lun" class="checkbox" value="off" style="font-family:Comfortaa;" id="lun">Lunedi
-                <INPUT TYPE="checkbox" NAME="mar" class="checkbox" value="off" style="font-family:Comfortaa;" id="mar">Martedi
-                <INPUT TYPE="checkbox" NAME="mer" class="checkbox" value="off" style="font-family:Comfortaa;" id="mer">Mercoledi
-                <INPUT TYPE="checkbox" NAME="gio" class="checkbox" value="off" style="font-family:Comfortaa;" id="gio">Giovedi
-                <INPUT TYPE="checkbox" NAME="ven" class="checkbox" value="off" style="font-family:Comfortaa;" id="ven">Venerdi
-                <INPUT TYPE="checkbox" NAME="sab" class="checkbox" value="off" style="font-family:Comfortaa;" id="sab">Sabato
-                <INPUT TYPE="checkbox" NAME="dom" class="checkbox" value="off" style="font-family:Comfortaa;" id="dom">Domen.
+               <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="tuttigiorni" onClick="ckChange(this)">Tutti
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="lun">Lunedi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="mar">Martedi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="mer">Mercoledi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="gio">Giovedi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="ven">Venerdi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="sab">Sabato
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="font-family:Comfortaa;" id="dom">Domen.
                </p></td>
             </tr>
         </table></td>
@@ -172,15 +195,15 @@
 	    <td colspan="3" align="left"><table width="101%" border="0">
 	      <tr>
 	        <td><p>
-	          <INPUT NAME="tuttevalvole" TYPE="checkbox" VALUE="1" checked id="tuttevalvole">Tutte
-	          <INPUT TYPE="checkbox" NAME="valvola1" class="checkbox" VALUE="off" id="valvola1">1
-	          <INPUT TYPE="checkbox" NAME="valvola2" class="checkbox" VALUE="off" id="valvola2">2
-	          <INPUT TYPE="checkbox" NAME="valvola3" class="checkbox" VALUE="off" id="valvola3">3
-	          <INPUT TYPE="checkbox" NAME="valvola4" class="checkbox" VALUE="off" id="valvola4">4
-	          <INPUT TYPE="checkbox" NAME="valvola5" class="checkbox" VALUE="off" id="valvola5">5
-	          <INPUT TYPE="checkbox" NAME="valvola6" class="checkbox" VALUE="off" id="valvola6">6
-	          <INPUT TYPE="checkbox" NAME="valvola7" class="checkbox" VALUE="off" id="valvola7">7
-	          <INPUT TYPE="checkbox" NAME="valvola8" class="checkbox" VALUE="off" id="valvola8">8
+	          <INPUT NAME="valvole" TYPE="checkbox" VALUE="1" id="tuttevalvole"  onClick="ckChange(this)">Tutte
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola1">1
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola2">2
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola3">3
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola4">4
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola5">5
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola6">6
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola7">7
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola8">8
 	          </p></td>
           </tr>
 	      </table>
@@ -208,7 +231,7 @@
      
        <div align="center" style = " width:950px; background-position:center; margin:0 auto;" >
 		<p></p>
-		<input type="submit" value="SSI Home" onclick="window.location = './index.htm';" /				>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+		<input type="submit" value="Cancel" onclick="window.location = './programlist.htm';" /				>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
 		<input type="submit" value="Salva" onclick="saveNewProgramma();" />
 		<p></p>
        </div>

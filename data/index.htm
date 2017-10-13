@@ -75,9 +75,16 @@
             console.log("Entrati",xh.responseText)
             var res = JSON.parse(xh.responseText);
 	    console.log(res);
-	    document.getElementById ("hum").innerHTML = parseFloat(res.S_humidity_WBS).toFixed(1);//centrale
-      document.getElementById ("spoint").innerHTML = parseFloat(res.S_setpoint_WBS).toFixed(0); //setpoint
-            
+	    
+		if (res.S_sensoreattivo_WBS == 1 ) {
+		document.getElementById ("hum").innerHTML = parseFloat(res.S_humidity_WBS).toFixed(1);//centrale
+		document.getElementById ("spoint").innerHTML = parseFloat(res.S_setpoint_WBS).toFixed(0); //setpoint
+        }
+		else
+		{
+		document.getElementById ("hum").innerHTML = "DIS.";//centrale
+		document.getElementById ("spoint").innerHTML = "XX"; //setpoint
+		}		
 			if (res.S_rele1status_WBS==1){
 			document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
 			else 
@@ -176,7 +183,13 @@
 		
 		minuti= data.getMinutes();
 		if (controllodata==1)
-		document.getElementById("oggi").innerHTML =  gg + mm + aaaa + " " + ore+ ":" +minuti;
+			if (isMobile) {
+			document.getElementById("oggi").innerHTML =  gg + mm + aaaa;
+			}
+			else
+			{
+			document.getElementById("oggi").innerHTML =  gg + mm + aaaa + " " + ore+ ":" +minuti;
+			}
 		else
 		document.getElementById("oggi").innerHTML =  "<p>";
 		
