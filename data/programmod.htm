@@ -36,17 +36,7 @@
        
 					if (jd.TuttiGiorni == 1) {
 					  document.getElementById("tuttigiorni").checked="checked";
-					  /* on deselect di tuttigiorni si devono riattivare - implementare javascript
-					  *
-					  document.getElementById("lun").disabled="disabled";
-					  document.getElementById("mar").disabled="disabled";
-					  document.getElementById("mer").disabled="disabled";
-					  document.getElementById("gio").disabled="disabled";
-					  document.getElementById("ven").disabled="disabled";
-					  document.getElementById("sab").disabled="disabled";
-					  document.getElementById("dom").disabled="disabled";
-					  *
-					  */
+					 
 					}
 					else
 					{
@@ -67,18 +57,6 @@
 					}
         if (jd.TutteValvole == 1) {
 					document.getElementById("tuttevalvole").checked="checked";
-					/* on deselect di tuttevalvole si devono riattivare - implementare javascript
-					  *
-					  document.getElementById("valvola1").disabled="disabled";
-					  document.getElementById("valvola2").disabled="disabled";
-					  document.getElementById("valvola3").disabled="disabled";
-					  document.getElementById("valvola4").disabled="disabled";
-					  document.getElementById("valvola5").disabled="disabled";
-					  document.getElementById("valvola6").disabled="disabled";
-					  document.getElementById("valvola7").disabled="disabled";
-					  document.getElementById("valvola8").disabled="disabled";
-					  *
-					  */
 				}
 				else{
 					if (jd.Valvola1 == 1) 
@@ -117,7 +95,7 @@
 		Attivo=0;
 		Inizio=0;
 		Fine=0;
-		TuttiGiorni=0;
+		//TuttiGiorni=0;
 		Lunedi=0;
 		Martedi=0;
 		Mercoledi=0;
@@ -125,7 +103,7 @@
 		Venerdi=0;
 		Sabato=0;
 		Domenica=0;
-		TutteValvole=0;
+		//TutteValvole=0;
 		Valvola1=0;
 		Valvola2=0;
 		Valvola3=0;
@@ -148,7 +126,14 @@
 		Fine=document.getElementById("orafine").value;
 		
 		if(document.getElementById("tuttigiorni").checked){
-			TuttiGiorni=1;
+			//TuttiGiorni=1;
+			Lunedi=1;
+			Martedi=1;
+			Mercoledi=1;
+			Giovedi=1;
+			Venerdi=1;
+			Sabato=1;
+			Domenica=1;
 			}
 		if(document.getElementById("lun").checked){
 			Lunedi=1;
@@ -172,7 +157,15 @@
 			Domenica=1;
 		}
 		if(document.getElementById("tuttevalvole").checked){
-			TutteValvole=1;
+			//TutteValvole=1;
+			Valvola1=1;
+			Valvola2=1;
+			Valvola3=1;
+			Valvola4=1;
+			Valvola5=1;
+			Valvola6=1;
+			Valvola7=1;
+			Valvola8=1;
 			}
 		if(document.getElementById("valvola1").checked){
 			Valvola1=1;
@@ -198,7 +191,7 @@
 		if(document.getElementById("valvola8").checked){
 			Valvola8=1;
 		}
-		sched_json="{ \"Programma\": \""+Programma+"\" , \"Attivo\": "+Attivo+",\"Inizio\": \""+Inizio+"\"  ,\"Fine\": \""+Fine+"\" , \"TuttiGiorni\": "+TuttiGiorni+", \"Lunedi\": "+Lunedi+",\"Martedi\": "+Martedi+" , \"Mercoledi\": "+Mercoledi+",\"Giovedi\": "+Giovedi+"  ,\"Venerdi\": "+Venerdi+" , \"Sabato\": "+Sabato+", \"Domenica\": "+Domenica+",\"TutteValvole\": "+TutteValvole+" , \"Valvola1\": "+Valvola1+",\"Valvola2\": "+Valvola2+"  ,\"Valvola3\": "+Valvola3+" , \"Valvola4\": "+Valvola4+", \"Valvola5\": "+Valvola5+", \"Valvola6\": "+Valvola6+" , \"Valvola7\": "+Valvola7+",\"Valvola8\": "+Valvola8+"}\n";
+		sched_json="{ \"Programma\": \""+Programma+"\" , \"Attivo\": "+Attivo+",\"Inizio\": \""+Inizio+"\"  ,\"Fine\": \""+Fine+"\" , \"Lunedi\": "+Lunedi+",\"Martedi\": "+Martedi+" , \"Mercoledi\": "+Mercoledi+",\"Giovedi\": "+Giovedi+"  ,\"Venerdi\": "+Venerdi+" , \"Sabato\": "+Sabato+", \"Domenica\": "+Domenica+",\"Valvola1\": "+Valvola1+",\"Valvola2\": "+Valvola2+"  ,\"Valvola3\": "+Valvola3+" , \"Valvola4\": "+Valvola4+", \"Valvola5\": "+Valvola5+", \"Valvola6\": "+Valvola6+" , \"Valvola7\": "+Valvola7+",\"Valvola8\": "+Valvola8+"}\n";
 		console.log(sched_json);
 				
 		//salviamo m andando in POST
