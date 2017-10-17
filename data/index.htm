@@ -84,64 +84,112 @@
 		{
 		document.getElementById ("hum").innerHTML = "DIS.";//centrale
 		document.getElementById ("spoint").innerHTML = "XX"; //setpoint
-		}		
-			if (res.S_rele1status_WBS==1){
-			document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
-			else 
-			{
-			document.getElementById ("valv1").innerHTML = "V.1: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1ON\";' />";
+		}	
+			if (res.S_numerovalvole_WBS==2){
+						if (res.S_rele1status_WBS==1){
+						document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
+						else 
+						{
+						document.getElementById ("valv1").innerHTML = "V.1: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1ON\";' />";
+						}
+						if (res.S_rele2status_WBS==1){
+						document.getElementById ("valv2").innerHTML = "V.2: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv2").innerHTML = "V.2: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2ON\";' />";
+						}
+			}		
+			if (res.S_numerovalvole_WBS==4){
+						if (res.S_rele1status_WBS==1){
+						document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
+						else 
+						{
+						document.getElementById ("valv1").innerHTML = "V.1: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1ON\";' />";
+						}
+						if (res.S_rele2status_WBS==1){
+						document.getElementById ("valv2").innerHTML = "V.2: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv2").innerHTML = "V.2: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2ON\";' />";
+						}
+						if (res.S_rele3status_WBS==1){
+						document.getElementById ("valv3").innerHTML = "V.3: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv3").innerHTML = "V.3: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3ON\";' />";
+						}
+					
+						if (res.S_rele4status_WBS==1){
+						document.getElementById ("valv4").innerHTML = "V.4: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv4").innerHTML = "V.4: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4ON\";' />";
+						}
 			}
-			if (res.S_rele2status_WBS==1){
-			document.getElementById ("valv2").innerHTML = "V.2: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2OFF\";' />";
+			if (res.S_numerovalvole_WBS==8){
+						if (res.S_rele1status_WBS==1){
+						document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
+						else 
+						{
+						document.getElementById ("valv1").innerHTML = "V.1: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1ON\";' />";
+						}
+						if (res.S_rele2status_WBS==1){
+						document.getElementById ("valv2").innerHTML = "V.2: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv2").innerHTML = "V.2: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2ON\";' />";
+						}
+						if (res.S_rele3status_WBS==1){
+						document.getElementById ("valv3").innerHTML = "V.3: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv3").innerHTML = "V.3: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3ON\";' />";
+						}
+					
+						if (res.S_rele4status_WBS==1){
+						document.getElementById ("valv4").innerHTML = "V.4: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv4").innerHTML = "V.4: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4ON\";' />";
+						}
+					  
+					  if (res.S_rele5status_WBS==1){
+						document.getElementById ("valv5").innerHTML = "V.5: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola5OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv5").innerHTML = "V.5: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola5ON\";' />";
+						}
+					  if (res.S_rele6status_WBS==1){
+						document.getElementById ("valv6").innerHTML = "V.6: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola6OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv6").innerHTML = "V.6: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola6ON\";' />";
+						}
+					  if (res.S_rele7status_WBS==1){
+						document.getElementById ("valv7").innerHTML = "V.7: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola7OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv7").innerHTML = "V.7: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola7ON\";' />";
+						}
+					  if (res.S_rele8status_WBS==1){
+						document.getElementById ("valv8").innerHTML = "V.8: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola8OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv8").innerHTML = "V.8: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola8ON\";' />";
+						}
 			}
-			else
-			{
-			document.getElementById ("valv2").innerHTML = "V.2: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2ON\";' />";
-			}
-			if (res.S_rele3status_WBS==1){
-			document.getElementById ("valv3").innerHTML = "V.3: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv3").innerHTML = "V.3: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3ON\";' />";
-			}
-		
-			if (res.S_rele4status_WBS==1){
-			document.getElementById ("valv4").innerHTML = "V.4: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv4").innerHTML = "V.4: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4ON\";' />";
-			}
-		  
-		  if (res.S_rele5status_WBS==1){
-			document.getElementById ("valv5").innerHTML = "V.5: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola5OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv5").innerHTML = "V.5: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola5ON\";' />";
-			}
-		  if (res.S_rele6status_WBS==1){
-			document.getElementById ("valv6").innerHTML = "V.6: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola6OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv6").innerHTML = "V.6: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola6ON\";' />";
-			}
-		  if (res.S_rele7status_WBS==1){
-			document.getElementById ("valv7").innerHTML = "V.7: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola7OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv7").innerHTML = "V.7: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola7ON\";' />";
-			}
-		  if (res.S_rele8status_WBS==1){
-			document.getElementById ("valv8").innerHTML = "V.8: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola8OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv8").innerHTML = "V.8: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola8ON\";' />";
-			}
+			
 		      } else running = false;
         }
       };
@@ -247,8 +295,10 @@
 					<td width="50%" id="valv8" name="valv8"></td>
 				</tr>
 			</table>
-			
+			<br>
 			<table id="pulsanti" style="margin:0 auto;">
+				<tr>
+				</tr>
 				<tr>
 				<td>	
 					<input type="submit" value="Setting" onclick="window.location = './setting.htm';">
