@@ -1,0 +1,165 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>SSI Programmi</title>
+        <link rel="stylesheet" href="css/jquery-ui.min.css">
+        <script src="javascript/jquery.js"></script>
+        <script src="javascript/jquery-ui.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet"> 
+        <meta id="viewport" name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />	
+        <script type="text/javascript">
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      	
+      	if (isMobile) {
+      		document.write("<LINK rel=stylesheet href='css/programlist_mobile.css'");
+      	}
+      	else{
+      		document.write("<LINK rel=stylesheet href='css/programlist_desktop.css'");
+      	}
+            
+        
+            $(document).ready(function () {
+                $.ajaxSetup({cache: false});
+                //importo lista file
+                // $.getJSON('/listaprogrammi.json', function (aa) {
+                $.getJSON('/getFileList', function (lista_filenames) {
+                    console.log('lista filenames: ', lista_filenames);
+                    var $tbody = $('#tabella-programmi');
+                    lista_filenames.forEach(function (filename) {
+                        console.log('analizzo filename' + filename);
+                        var valvole = '', giorni = '';
+                        //  document.getElementById ("listafile").innerHTML += aa[i];
+                        //$.getJSON('programs/ssi_program1.json', function(jd) {
+                        $.getJSON(filename, function (jd) {
+                            console.log(jd);
+                            var filename = this.url;
+                            (filename.indexOf('?') > -1) &&
+                                    (filename = filename.substr(0,filename.indexOf('?')));
+                            if (jd.TuttiGiorni == 1) {
+                                giorni = 'Tutti';
+                            } else {
+                                (jd.Lunedi == 1) &&
+                                        (giorni += (giorni === '' ? '' : ' - ') + "Lun");
+                                (jd.Martedi == 1) &&
+                                        (giorni += (giorni === '' ? '' : ' - ') + "Mar");
+                                (jd.Mercoledi == 1) &&
+                                        (giorni += (giorni === '' ? '' : ' - ') + "Mer");
+                                (jd.Giovedi == 1) &&
+                                        (giorni += (giorni === '' ? '' : ' - ') + "Gio");
+                                (jd.Venerdi == 1) &&
+                                        (giorni += (giorni === '' ? '' : ' - ') + "Ven");
+                                (jd.Sabato == 1) &&
+                                        (giorni += (giorni === '' ? '' : ' - ') + "Sab");
+                                (jd.Domenica == 1) &&
+                                        (giorni += (giorni === '' ? '' : ' - ') + "Dom");
+                            }
+                            if (jd.TutteValvole == 1) {
+                                //document.getElementById("valvole").innerHTML = "Tutte";
+                                valvole = 'Tutte';
+                            } else {
+                                (jd.Valvola1 == 1) &&
+                                        (valvole += (valvole === '' ? '' : ' - ') + "Valvola 1");
+                                (jd.Valvola2 == 1) &&
+                                        (valvole += (valvole === '' ? '' : ' - ') + "Valvola 2");
+                                (jd.Valvola3 == 1) &&
+                                        (valvole += (valvole === '' ? '' : ' - ') + "Valvola 3");
+                                (jd.Valvola4 == 1) &&
+                                        (valvole += (valvole === '' ? '' : ' - ') + "Valvola 4");
+                                (jd.Valvola5 == 1) &&
+                                        (valvole += (valvole === '' ? '' : ' - ') + "Valvola 5");
+                                (jd.Valvola6 == 1) &&
+                                        (valvole += (valvole === '' ? '' : ' - ') + "Valvola 6");
+                                (jd.Valvola7 == 1) &&
+                                        (valvole += (valvole === '' ? '' : ' - ') + "Valvola 7");
+                                (jd.Valvola8 == 1) &&
+                                        (valvole += (valvole === '' ? '' : ' - ') + "Valvola 8");
+                            }
+                            var $tr = $('<tr data-file="' + filename + '"></tr>');
+                            $tr.append('<td class="testotabella" id="programma" name="programma">' + jd.Programma + '</td>')
+                                    .append('<td width="6%" align="left" class="testotabella" name="inizio">' + jd.Inizio + '</td>')
+                                    .append('<td width="5%" align="left" class="testotabella" name="fine">' + jd.Fine + '</td>')
+                                    .append('<td class="testotabella" id="attivo" name="attivo">' + (jd.Attivo == 1 ? 'Si' : 'No') + '</td>')
+                                    .append('<td width="16%" align="left"class="testotabella" name="giorni">' + giorni + '</td>')
+                                    .append('<td width="37%" align="left"class="testotabella" name="valvole">' + valvole + '</td>')
+                                    .append('<td width="11%" align="left">'
+                                            + '<a class="edit-item" href="#"><img src="img/modifica.png" alt="modifica" width="40" height="40"></a>'
+                                            + '<a class="delete-item" href="#"><img src="img/cancella.png" width="40" height="40" alt="cancella"></a>'
+                                            + '</td>')
+                                    .append('</tr>');
+                            $tr.appendTo($tbody);
+                            $tr.find('.edit-item').on('click', function () {
+                                $.get('programmod.htm?'+ $tr.data('file'), function () {
+									var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+											if (isMobile) {
+												location.replace ('programmodmobile.htm?'+ $tr.data('file'));
+											}
+											else{
+												location.replace ('programmod.htm?'+ $tr.data('file'));
+											}                                   
+								  // location.replace ('programmod.htm?'+ $tr.data('file'));
+								  
+                                });
+                            });
+                            $tr.find('.delete-item').on('click', function () {
+                                //var risposta = confirm('Sei sicuro di voler cancellare il programma? (' + $tr.data('file') + ')');
+                                var risposta = confirm('Sei sicuro di voler cancellare il programma?');
+                                if (risposta == true)
+                                    $.get('DeleteProgram?file=' + $tr.data('file'), function () {
+                                        $tr.remove();
+                                    });
+                            });
+                        });
+                    });
+                });
+            });
+        
+		function nuovoprogramma(){
+		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+		if (isMobile) {
+			window.location = './programinputmobile.htm';
+		}
+		else{
+			window.location = './programinput.htm';
+		}
+		}
+		
+		</script>
+        <style>
+            
+
+        </style>
+    </head>
+
+    <body>
+        <p style="titolo" id="titolo">SSI Elenco Programmi <a href="#" onclick="nuovoprogramma();"><img src="img/nuovo.png" alt="nuovo" width="40" height="40"></a></p>
+        <br>
+
+        <div>
+            <table id="tabella-programmi" style="font-family: 'Comfortaa'"  width="950" border="1" align="center" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr class="class="intestazionetabella" style = "font-weight: bold">
+                        <td width="22%" class="intestazionetabella">Programma</td>
+                        <td align="left" class="intestazionetabella"><label for="nomprog">Inizio</label></td>
+                        <td align="left" class="intestazionetabella">Fine</td>
+                        <td width="3%" align="left" class="intestazionetabella">Att.</td>
+                        <td align="left" class="intestazionetabella">Giorni</td>
+                        <td colspan="2" align="left" class="intestazionetabella">Valvole Programmate</td>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+            <p>&nbsp;</p>
+        </div>
+        <div style=" color:rgba(21,199,238,1);">
+            <div align="center" style = " background-position:center; margin:0 auto;" >
+                <p></p>
+                <input type="submit" value="SSI Home" onclick="window.location = './index.htm';" />
+                <p></p>
+            </div>
+        </div>
+    </body>
+</html>

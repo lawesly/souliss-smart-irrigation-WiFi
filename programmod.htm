@@ -1,0 +1,312 @@
+<html><!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+
+	<meta charset="utf-8">
+  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SSI Modifica Programmi</title>
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<script src="javascript/jquery.js"></script>
+	<script src="javascript/jquery-ui.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+
+	<meta id="viewport" name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />	
+	
+    <script type="text/javascript">
+	var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      	
+      	if (isMobile) {
+      		document.write("<LINK rel=stylesheet href='css/programmod_mobile.css'");
+      	}
+      	else{
+      		document.write("<LINK rel=stylesheet href='css/programmod_desktop.css'");
+      	}
+     $(document).ready(function() {		
+		$.ajaxSetup( { cache: false } );
+		//importo la variabile 
+		var stringUrl = window.location.search;
+		stringUrl = stringUrl.substring(1);
+			$.getJSON(stringUrl, function(jd) {
+				console.log (jd);
+				
+				document.getElementById ("programma").value = jd.Programma;
+				document.getElementById ("orainizio").value = jd.Inizio;
+				document.getElementById ("orafine").value = jd.Fine;
+				
+       
+					if (jd.TuttiGiorni == 1) {
+					  document.getElementById("tuttigiorni").checked="checked";
+					 
+					}
+					else
+					{
+    					if (jd.Lunedi == 1) 
+    					document.getElementById("lun").checked="checked";
+    					if (jd.Martedi == 1) 
+    					document.getElementById("mar").checked="checked";
+    					if (jd.Mercoledi == 1) 
+    					document.getElementById("mer").checked="checked";
+    					if (jd.Giovedi == 1) 
+    					document.getElementById("gio").checked="checked";
+    					if (jd.Venerdi == 1) 
+    					document.getElementById("ven").checked="checked";
+    					if (jd.Sabato == 1) 
+    					document.getElementById("sab").checked="checked";
+    					if (jd.Domenica == 1) 
+    					document.getElementById("dom").checked="checked";
+					}
+        if (jd.TutteValvole == 1) {
+					document.getElementById("tuttevalvole").checked="checked";
+				}
+				else{
+					if (jd.Valvola1 == 1) 
+					document.getElementById("valvola1").checked="checked";
+					if (jd.Valvola2 == 1) 
+					document.getElementById("valvola2").checked="checked";
+					if (jd.Valvola3 == 1) 
+					document.getElementById("valvola3").checked="checked";
+					if (jd.Valvola4 == 1) 
+					document.getElementById("valvola4").checked="checked";
+          if (jd.Valvola5 == 1) 
+					document.getElementById("valvola5").checked="checked";
+					if (jd.Valvola6 == 1) 
+					document.getElementById("valvola6").checked="checked";
+					if (jd.Valvola7 == 1) 
+					document.getElementById("valvola7").checked="checked";
+					if (jd.Valvola8 == 1) 
+					document.getElementById("valvola8").checked="checked";
+				}
+        
+        if (jd.Attivo == 1) {
+						document.getElementById("programmaattivosi").checked="checked";
+				}
+				else{
+					document.getElementById("programmaattivono").checked="checked";
+				}
+			});
+		});
+		
+		//salvataggio
+		function saveProgramma(){
+		// variabile per salvare
+		sched_json="";
+		//mettiamo a zero tutto
+		Programma=0;
+		Attivo=0;
+		Inizio=0;
+		Fine=0;
+		//TuttiGiorni=0;
+		Lunedi=0;
+		Martedi=0;
+		Mercoledi=0;
+		Giovedi=0;
+		Venerdi=0;
+		Sabato=0;
+		Domenica=0;
+		//TutteValvole=0;
+		Valvola1=0;
+		Valvola2=0;
+		Valvola3=0;
+		Valvola4=0;
+		Valvola5=0;
+		Valvola6=0;
+		Valvola7=0;
+		Valvola8=0;
+		// Assegnamo i dati 
+		Programma=document.getElementById("programma").value;
+
+		if(document.getElementById("programmaattivosi").checked){
+			Attivo=1;
+		}
+		else
+		{
+			Attivo=0;
+		}
+		Inizio=document.getElementById("orainizio").value;
+		Fine=document.getElementById("orafine").value;
+		
+		if(document.getElementById("tuttigiorni").checked){
+			//TuttiGiorni=1;
+			Lunedi=1;
+			Martedi=1;
+			Mercoledi=1;
+			Giovedi=1;
+			Venerdi=1;
+			Sabato=1;
+			Domenica=1;
+			}
+		if(document.getElementById("lun").checked){
+			Lunedi=1;
+			}
+		if(document.getElementById("mar").checked){
+			Martedi=1;
+			}
+		if(document.getElementById("mer").checked){
+			Mercoledi=1;
+		}
+		if(document.getElementById("gio").checked){
+			Giovedi=1;
+			}
+		if(document.getElementById("ven").checked){
+			Venerdi=1;
+			}
+		if(document.getElementById("sab").checked){
+			Sabato=1;
+		}
+		if(document.getElementById("dom").checked){
+			Domenica=1;
+		}
+		if(document.getElementById("tuttevalvole").checked){
+			//TutteValvole=1;
+			Valvola1=1;
+			Valvola2=1;
+			Valvola3=1;
+			Valvola4=1;
+			Valvola5=1;
+			Valvola6=1;
+			Valvola7=1;
+			Valvola8=1;
+			}
+		if(document.getElementById("valvola1").checked){
+			Valvola1=1;
+			}
+		if(document.getElementById("valvola2").checked){
+			Valvola2=1;
+			}
+		if(document.getElementById("valvola3").checked){
+			Valvola3=1;
+		}
+		if(document.getElementById("valvola4").checked){
+			Valvola4=1;
+			}
+		if(document.getElementById("valvola5").checked){
+			Valvola5=1;
+			}
+		if(document.getElementById("valvola6").checked){
+			Valvola6=1;
+		}
+		if(document.getElementById("valvola7").checked){
+			Valvola7=1;
+		}
+		if(document.getElementById("valvola8").checked){
+			Valvola8=1;
+		}
+		sched_json="{ \"Programma\": \""+Programma+"\" , \"Attivo\": "+Attivo+",\"Inizio\": \""+Inizio+"\"  ,\"Fine\": \""+Fine+"\" , \"Lunedi\": "+Lunedi+",\"Martedi\": "+Martedi+" , \"Mercoledi\": "+Mercoledi+",\"Giovedi\": "+Giovedi+"  ,\"Venerdi\": "+Venerdi+" , \"Sabato\": "+Sabato+", \"Domenica\": "+Domenica+",\"Valvola1\": "+Valvola1+",\"Valvola2\": "+Valvola2+"  ,\"Valvola3\": "+Valvola3+" , \"Valvola4\": "+Valvola4+", \"Valvola5\": "+Valvola5+", \"Valvola6\": "+Valvola6+" , \"Valvola7\": "+Valvola7+",\"Valvola8\": "+Valvola8+"}\n";
+		console.log(sched_json);
+				
+		//salviamo m andando in POST
+		$.ajax( "programmod", {
+			data: sched_json,
+			contentType: 'application/json',
+			async: false,
+			type : 'POST', 
+			success: function( html ) {
+				window.document.write( html );
+				}		
+		});
+		//window.location.reload();
+	 }
+	 function ckChange(ckType) {
+	  var ckName = document.getElementsByName(ckType.name);
+
+	  for (var i = 0; i < ckName.length; i++) {
+		if (!ckType.checked) {
+		  ckName[i].disabled = false;
+		} else {
+		  if (!ckName[i].checked) {
+			ckName[i].disabled = true;
+		  } else {
+			ckName[i].disabled = false;
+		  }
+		}
+	  }
+
+	}
+      </script>
+      
+      
+   </head>
+   
+   <body>
+
+  <p style="titolo" id="titolo">SSI Modifica Programma </p>
+  <br>        
+	<div>
+	<table style="tabellamodifica" id="tabellamodifica" >
+	  <tr>
+	    <td width="25%" class="titolimodifica" >Programma:</td>
+	    <td colspan="3" align="left"><label for="programma"></label>
+        <input name="programma" type="text" class="testotabella" id="programma" size="80" maxlength="100"></td>
+      </tr>
+	  <tr>
+	    <td class="titolimodifica">Inizio:</td>
+	    <td width="18%" align="left"><input name="orainizio" type="time" class="testotabella"  id="orainizio" ></td>
+	    <td width="18%" align="right" ><span class="titolimodifica">Fine:</span></td>
+	    <td width="39%" align="left"><input name="orafine" type="time" class="testotabella" id="orafine"></td>
+      </tr>
+	  <tr >
+	    <td align="left"class="titolimodifica" >Giorni :</td>
+	    <td colspan="3" align="left">
+          <table width="101%" border="0">
+            <tr>
+              <td><p>
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="testotabella" id="tuttigiorni" onClick="ckChange(this)">Tutti
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="testotabella" id="lun">Lunedi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="testotabella" id="mar">Martedi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="testotabella" id="mer">Mercoledi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="testotabella" id="gio">Giovedi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="testotabella" id="ven">Venerdi
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="testotabella" id="sab">Sabato
+                <INPUT TYPE="checkbox" NAME="giorni" class="checkbox" value="off" style="testotabella" id="dom">Domen.
+              </p></td>
+            </tr>
+        </table></td>
+      </tr>
+	  <tr>
+	    <td class="titolimodifica">Valvole:</td>
+	    <td colspan="3" align="left"><table width="101%" border="0">
+	      <tr>
+	        <td><p>
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" id="tuttevalvole" onClick="ckChange(this)">Tutte
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola1">1
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola2">2
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola3">3
+	          <INPUT TYPE="checkbox" NAME="valvole" class="checkbox" VALUE="off" id="valvola4">4 
+	          <INPUT TYPE="checkbox" NAME="valvole" VALUE="off" id="valvola5">5 
+	          <INPUT TYPE="checkbox" NAME="valvole" VALUE="off" id="valvola6">6 
+	          <INPUT TYPE="checkbox" NAME="valvole" VALUE="off" id="valvola7">7 
+	          <INPUT TYPE="checkbox" NAME="valvole" VALUE="off" id="valvola8">8
+	          </p></td>
+          </tr>
+	      </table></td>
+      </tr>
+	  <tr>
+	    <td class="titolimodifica">Attivo:</td>
+	    <td colspan="3" align="left"><p>
+          <label>
+          <input type="radio" name="programmaattivo" value="off" id="programmaattivosi">Si
+          </label>
+          <label>
+          <input type="radio" name="programmaattivo" value="off" id="programmaattivono">No
+          </label>
+          <br>
+        </p></td>
+      </tr>
+    
+    </table>
+	  <div align="center" style = " width:950px; background-position:center; margin:0 auto;" >
+		<p></p>
+		<input type="submit" value="Cancel" onclick="window.location = './programlist.htm';" /				>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+		<input type="submit" value="Salva" onclick="saveProgramma();" />
+		<p></p>
+       </div>
+   </form> 
+ </div>      
+       
+
+       
+       
+</body>
+	
+</html>
+

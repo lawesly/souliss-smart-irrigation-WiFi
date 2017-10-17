@@ -1,0 +1,239 @@
+<html><!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    
+	<meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SSI Settings</title>
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<script src="javascript/jquery.js"></script>
+	<script src="javascript/jquery-ui.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet"> 
+
+	<meta id="viewport" name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />	
+      
+      <script>
+      $(document).ready(function() {		
+		$.ajaxSetup( { cache: false } );
+		//importo file e divido i valori 
+			$.getJSON('ssi_settings.json', function(jd) {
+				console.log (jd);
+				if (jd.Orologio == 1) {
+					$("#orologio").attr("checked", true);
+					document.getElementById("orologio").checked="checked";
+					}
+					else{
+					 $("#orologio").attr("checked", false);
+					 }
+				if (jd.Programmi == 1) {
+					$("#programmazione").attr("checked", true);
+					document.getElementById("programmazione").checked="checked";
+					}
+					else{
+					 $("#programmazione").attr("checked", false);
+					 }
+
+				if (jd.DayLightSavingTime == 1) {
+					$("#orasolare").attr("checked", true);
+					document.getElementById("orasolare").checked="checked";
+					}
+					else{
+					 $("#orasolare").attr("checked", false);
+					 }
+
+        if (jd.SensoreAttivo == 1) {
+					$("#sensoreattivo").attr("checked", true);
+					document.getElementById("sensoreattivo").checked="checked";
+					}
+					else{
+					 $("#orasolare").attr("checked", false);
+					 }
+		if (jd.NumeroValvole == 2) {
+					$("#duevalvole").attr("checked", true);
+					document.getElementById("duevalvole").value="2";
+					}
+		if (jd.NumeroValvole == 4) {
+					$("#quattrovalvole").attr("checked", true);
+					document.getElementById("quattrovalvole").value="4";
+					}
+		if (jd.NumeroValvole == 8) {
+					$("#ottovalvole").attr("checked", true);
+					document.getElementById("ottovalvole").value="8";
+					}
+					
+					 
+				document.getElementById ("temp").value = jd.Setpoint;
+				$("#lumi").slider('value',jd.Setpoint);
+				});
+								
+			});
+      $(function() {
+		$("#lumi").slider({
+	  	orientation: "orizontal",
+	  	range: "min",
+	  	min: 1,
+	  	max: 100,
+	  	step: 1,
+	  	value: document.getElementById ("temp").value,
+	  	slide: function( event, ui ) {
+			$( "#temp" ).val( ui.value);
+		
+			}
+		});
+		
+		$( "#temp" ).val( $( "#lumi" ).slider( "value" ));
+		});
+      
+    
+    function saveSchedule(){
+		// variabile per salvare
+		sched_json="";
+		//mettiamo a zero tutto
+		Orologio=0;
+		Tzone=0;
+		Setpoint=0;
+		DayLightSavingTime=0;
+		Programmi=0;
+		SensoreAttivo=0;
+		NumeroValvole=0;
+		// Assegnamo i dati 
+		if(document.getElementById("orologio").checked){
+			Orologio=1;
+			}
+		if(document.getElementById("orasolare").checked){
+			DayLightSavingTime=1;
+			}
+		if(document.getElementById("programmazione").checked){
+			Programmi=1;
+			}
+		if(document.getElementById("sensoreattivo").checked){
+			SensoreAttivo=1;
+			}
+		if(document.getElementById("duevalvole").value){
+			NumeroValvole=2;
+			}
+		if(document.getElementById("quattrovalvole").checked){
+			NumeroValvole=4;
+			}
+		if(document.getElementById("ottovalvole").checked){
+			NumeroValvole=8;
+			}
+		Setpoint= document.getElementById ("temp").value;
+		Tzone=document.getElementById("timezone").value;
+		
+		sched_json="{ \"Orologio\": "+Orologio+" , \"Tzone\": "+Tzone+",\"DayLightSavingTime\": "+DayLightSavingTime+"  ,\"Setpoint\": "+Setpoint+" , \"Programmi\": "+Programmi+", \"SensoreAttivo\": "+SensoreAttivo+", \"NumeroValvole\": "+NumeroValvole+" }\n";
+		console.log(sched_json);
+				
+		//salviamo m andando in POST
+		$.ajax( "setting", {
+			data: sched_json,
+			contentType: 'application/json',
+			async: false,
+			type : 'POST', 
+			success: function( html ) {
+				window.document.write( html );
+				}		
+		});
+		//window.location.reload();
+	 }
+	 
+	 function ckChange(ckType) {
+	  var ckName = document.getElementsByName(ckType.name);
+
+	  for (var i = 0; i < ckName.length; i++) {
+		if (!ckType.checked) {
+		  ckName[i].disabled = false;
+		} else {
+		  if (!ckName[i].checked) {
+			ckName[i].disabled = true;
+		  } else {
+			ckName[i].disabled = false;
+		  }
+		}
+	  }
+
+	}
+      </script>
+   <style>
+  		input[type="submit"] {
+   		border: 0 !important;  /*Removes border*/
+   		-webkit-appearance: none;  /*Removes default chrome and safari style*/
+   		-moz-appearance: none; /* Removes Default Firefox style*/
+        /*background-color: #0088cc /*url(img/select-arrow.png) no-repeat 90% center;*/
+        width: 100px; /*Width of select dropdown to give space for arrow image*/
+        height:30px;
+		    text-indent: 0.01px; /* Removes default arrow from firefox*/
+        text-overflow: "";  /*Removes default arrow from firefox*/ /*My custom style for fonts*/
+        color: #000;
+        border-radius: 15px;
+        padding: 1px;
+        box-shadow: inset 0 0 5px rgba(000,000,000, 1);
+		background-color:rgba(21,199,238,1); /* colore di sfondo    testo    */
+		font-family: 'Comfortaa', cursive;
+		font-size:0.8em;
+		font-weight: bold;         /* testo in grassetto  */
+		}
+		
+   </style>
+   
+   </head>
+	
+   <body style="font-family:Comfortaa;">
+  
+      <div id="corpo" align="center" style = " width:320px; background-position:center; margin:0 auto;" >
+	<p style = "margin:0 auto; text-align:center; width:320px;font-family:Comfortaa; font-size:20pt; background-color:white"><span style="margin: auto; text-align: center; width: 950px; font-family: 'Segoe UI'; font-size: 20pt; font-weight: bold; color: rgba(21,199,238,1); background-color: white">SSI Settings</span></p>
+	<p></p>
+	<table id = "temp" style =  "width:320px; border:2px; font-family:Comfortaa;">
+		<tr>
+			<fieldset>
+			<legend align="center" style="font-family:Comfortaa;">Dispositivo</legend>
+					Orologio<input type="checkbox" id="orologio" name="orologio" value="off" style="font-family:Comfortaa;"/>
+					Ora Solare<input type="checkbox" id="orasolare" name="orasolare" value="off" style="font-family:Comfortaa;" /> 
+					Programmazione<input type="checkbox" id="programmazione" name="programmazione" value="off" style="font-family:Comfortaa;" /> 
+					&nbsp&nbsp&nbsp&nbsp
+		  </fieldset>	
+		</tr>
+		<tr>
+			<fieldset>
+			<legend align="center" style="font-family:Comfortaa;">TimeZone</legend>
+			<select name="zone" id="timezone">
+				<option value="1" style="font-family:Comfortaa;">Central European Time  </option>
+				<option value="-5" style="font-family:Comfortaa;" >Eastern Standard Time (USA)</option>
+				<option value="-4" style="font-family:Comfortaa;">Eastern Daylight Time (USA)</option>
+				<option value="-8" style="font-family:Comfortaa;">Pacific Standard Time (USA)</option>
+				<option value="-7" style="font-family:Comfortaa;">Pacific Daylight Time (USA)</option>
+			</select>
+		</tr>
+		<tr>
+			<fieldset>
+			<legend align="center" style="font-family:Comfortaa;">Numero Valvole</legend>
+			 
+			  <input type="radio" name="numerovalvole" value="2" id="duevalvole">2
+			  <input type="radio" name="numerovalvole" value="4" id="quattrovalvole">4
+			  <input type="radio" name="numerovalvole" value="8" id="ottovalvole">8
+			  
+			  &nbsp&nbsp&nbsp&nbsp
+		</tr>
+		<tr>
+			<fieldset>
+			<legend align="center" style="font-family:Comfortaa;">Umidità Terreno</legend>
+				Sensore Attivo<input type="checkbox" id="sensoreattivo" name="sensoreattivo" value="off" style="font-family:Comfortaa;"/>
+				<p>Setpoint:</p>
+				<p id="lumi" style="width:200px; height:14px;font-family:Confortaa;"></p>
+				<input type="text" id="temp" name="temp" readonly style="border:1; color:#ff9900; font-weight:bold; font-size:x-large; width: 2.5em; text-align:center" size="4">
+			</fieldset>
+		</tr>
+		
+	</table>
+      
+      </div>
+     
+       <div align="center" style = " width:320px; background-position:center; margin:0 auto;" >
+		<p></p>
+		<input type="submit" value="Cancel" onclick="window.location = './index.htm';" /				>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+		<input type="submit" value="Salva" onclick="saveSchedule();" />
+		<p></p>
+       </div>
+   </body>
+	
+</html>
