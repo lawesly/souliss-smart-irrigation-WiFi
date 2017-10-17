@@ -70,7 +70,6 @@ AsyncEventSource events("/events");
 File fsUploadFile;
 uint8_t buff{};
 
-String S_temperature_WBS="22.3";
 String S_setpoint_WBS="22.4";
 bool S_rele1status_WBS=0;
 bool S_rele2status_WBS=0;
@@ -81,7 +80,8 @@ bool S_rele6status_WBS=0;
 bool S_rele7status_WBS=0;
 bool S_rele8status_WBS=0;
 String S_humidity_WBS="58.8";
-String S_nextstep_WBS;
+bool S_sensoreattivo_WBS=0;
+int S_numerovalvole_WBS=0;
 String S_filena_WBS;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,7 +93,7 @@ boolean bProgrammi;
 int tZone;
 boolean bDayLightSavingTime;
 boolean sensoreattivo;
-
+int numerovalvole;
 
 void setup()
 {
@@ -109,6 +109,7 @@ void setup()
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   SPIFFS.begin();
   File  ssi_spiffs_verifica = SPIFFS.open("/ssi_settings.json", "r");
+
   if (!ssi_spiffs_verifica) {
     Serial.println(" ");
     Serial.println("Non riesco a leggere ssi_settings.json! formatto la SPIFFS...");
@@ -120,7 +121,9 @@ void setup()
   {
     ReadAllSettingsFromSPIFFS();
   }
-
+    S_sensoreattivo_WBS=sensoreattivo;
+    S_numerovalvole_WBS=numerovalvole;
+    
 
   Initialize();
   
@@ -165,6 +168,17 @@ void setup()
   
   //*************************************************************************
   //*************************************************************************
+  if (numerovalvole== 2) {
+  Set_T11(SLOT_VALVOLA_1);
+  Set_T11(SLOT_VALVOLA_2);
+  };
+  if (numerovalvole== 4) {
+  Set_T11(SLOT_VALVOLA_1);
+  Set_T11(SLOT_VALVOLA_2);
+  Set_T11(SLOT_VALVOLA_3);
+  Set_T11(SLOT_VALVOLA_4);
+  };
+  if (numerovalvole== 8) {
   Set_T11(SLOT_VALVOLA_1);
   Set_T11(SLOT_VALVOLA_2);
   Set_T11(SLOT_VALVOLA_3);
@@ -173,10 +187,11 @@ void setup()
   Set_T11(SLOT_VALVOLA_6);
   Set_T11(SLOT_VALVOLA_7);
   Set_T11(SLOT_VALVOLA_8);
-  
+  };
   
   Set_T53(SLOT_IGROMETRO);
-
+  
+  LeggiSensore();
   
 
   //NTP
@@ -190,6 +205,7 @@ void setup()
   setup_OTA_WBServer();
 
  
+ 
 }
 
 void loop()
@@ -197,40 +213,20 @@ void loop()
   EXECUTEFAST() {
     UPDATEFAST();
 
-    FAST_11110ms() {
-    Logic_T53(SLOT_IGROMETRO);
-
-    analogValue = analogRead(A0); // read the analog signal
-
-    // convert the analog signal to voltage
-    // the ESP2866 A0 reads between 0 and ~3 volts, producing a corresponding value
-    // between 0 and 1024. The equation below will convert the value to a voltage value.
-
-    analogVolts = (analogValue * 3.08) / 1024;
-  
-    // now get our chart value by converting the analog (0-1024) value to a value between 0 and 100.
-    // the value of 400 was determined by using a dry moisture sensor (not in soil, just in air).
-    // When dry, the moisture sensor value was approximately 400. This value might need adjustment
-    // for fine tuning of the chartValue.
-  
-    sensorValue = (analogValue * 100) / 1024; //with above 400 is not good, using 1024
-  
-    // now reverse the value so that the value goes up as moisture increases
-    // the raw value goes down with wetness, we want our chart to go up with wetness
-    sensorValue = 100 - sensorValue;
-
-    
-    SERIAL_OUT.print("Valore Igrometro : "); SERIAL_OUT.println(sensorValue); //Stampa a schermo il valore
-    
-    ImportAnalog(SLOT_IGROMETRO,&sensorValue);
-    S_humidity_WBS=sensorValue;//to WBServer
-    S_setpoint_WBS=setpoint;//to WBServer
-
-    }
 
     FAST_510ms() {
-    
-    
+     
+      if (numerovalvole== 2) {
+      Logic_T11(SLOT_VALVOLA_1);
+      Logic_T11(SLOT_VALVOLA_2);
+      };
+      if (numerovalvole== 4) {
+      Logic_T11(SLOT_VALVOLA_1);
+      Logic_T11(SLOT_VALVOLA_2);
+      Logic_T11(SLOT_VALVOLA_3);
+      Logic_T11(SLOT_VALVOLA_4);
+      };
+      if (numerovalvole== 8) {
       Logic_T11(SLOT_VALVOLA_1);
       Logic_T11(SLOT_VALVOLA_2);
       Logic_T11(SLOT_VALVOLA_3);
@@ -239,7 +235,26 @@ void loop()
       Logic_T11(SLOT_VALVOLA_6);
       Logic_T11(SLOT_VALVOLA_7);
       Logic_T11(SLOT_VALVOLA_8);
-     
+      };
+
+      if (numerovalvole== 2) {
+      LowDigOut(RELE_1, Souliss_T1n_Coil,SLOT_VALVOLA_1);
+      S_rele1status_WBS=(mOutput(SLOT_VALVOLA_1) & Souliss_T1n_Coil);//to WBServer
+      LowDigOut(RELE_2, Souliss_T1n_Coil,SLOT_VALVOLA_2);
+      S_rele2status_WBS=(mOutput(SLOT_VALVOLA_2) & Souliss_T1n_Coil);//to WBServer
+      };
+      if (numerovalvole== 4) {
+      LowDigOut(RELE_1, Souliss_T1n_Coil,SLOT_VALVOLA_1);
+      S_rele1status_WBS=(mOutput(SLOT_VALVOLA_1) & Souliss_T1n_Coil);//to WBServer
+      LowDigOut(RELE_2, Souliss_T1n_Coil,SLOT_VALVOLA_2);
+      S_rele2status_WBS=(mOutput(SLOT_VALVOLA_2) & Souliss_T1n_Coil);//to WBServer
+      LowDigOut(RELE_3, Souliss_T1n_Coil,SLOT_VALVOLA_3);
+      S_rele3status_WBS=(mOutput(SLOT_VALVOLA_3) & Souliss_T1n_Coil);//to WBServer
+      LowDigOut(RELE_4, Souliss_T1n_Coil,SLOT_VALVOLA_4);
+      S_rele4status_WBS=(mOutput(SLOT_VALVOLA_4) & Souliss_T1n_Coil);//to WBServer
+      };
+      
+      if (numerovalvole== 8) {
       LowDigOut(RELE_1, Souliss_T1n_Coil,SLOT_VALVOLA_1);
       S_rele1status_WBS=(mOutput(SLOT_VALVOLA_1) & Souliss_T1n_Coil);//to WBServer
       LowDigOut(RELE_2, Souliss_T1n_Coil,SLOT_VALVOLA_2);
@@ -256,7 +271,7 @@ void loop()
       S_rele4status_WBS=(mOutput(SLOT_VALVOLA_4) & Souliss_T1n_Coil);//to WBServer
       LowDigOut(RELE_8, Souliss_T1n_Coil,SLOT_VALVOLA_8);
       S_rele4status_WBS=(mOutput(SLOT_VALVOLA_4) & Souliss_T1n_Coil);//to WBServer
-      
+      };
     }
 
       #if(DYNAMIC_CONNECTION)
@@ -274,8 +289,29 @@ void loop()
       //DATALOGGER
       save_datalogger(setpoint,sensorValue,S_rele1status_WBS,S_rele2status_WBS,S_rele3status_WBS,S_rele4status_WBS,S_rele5status_WBS,S_rele6status_WBS,S_rele7status_WBS,S_rele8status_WBS);
     }
+
+ SLOW_x10s(61){
+    
+    ReadAllSettingsFromSPIFFS();
+    LeggiSensore();
+  }
+    
        
        SLOW_10s() {        // We handle the light timer with a 10 seconds base time
+           
+            if (numerovalvole== 2) {
+            Timer_T11(RELE_1); 
+            Timer_T11(RELE_2);
+            };
+            
+            if (numerovalvole== 4) {
+            Timer_T11(RELE_1); 
+            Timer_T11(RELE_2);
+            Timer_T11(RELE_3);
+            Timer_T11(RELE_4);
+            };
+            
+            if (numerovalvole== 8) {
             Timer_T11(RELE_1); 
             Timer_T11(RELE_2);
             Timer_T11(RELE_3);
@@ -284,7 +320,7 @@ void loop()
             Timer_T11(RELE_6);
             Timer_T11(RELE_7);
             Timer_T11(RELE_8);
-                        
+            };            
        }
       SLOW_15m() {
         //NTP
@@ -405,7 +441,8 @@ void ReadAllSettingsFromPreferences() {
   bDayLightSavingTime = DAYLIGHTSAVINGTIME;
   setpoint = SETPOINT;
   sensoreattivo = SENSOREATTIVO;
-  save_spiffs_prefs( bClock, tZone, bDayLightSavingTime, bProgrammi, setpoint,sensoreattivo);
+  numerovalvole = NUMEROVALVOLE;
+  save_spiffs_prefs( bClock, tZone, bDayLightSavingTime, bProgrammi, setpoint,sensoreattivo, numerovalvole);
   
 }
 void ReadAllSettingsFromSPIFFS() {
@@ -418,7 +455,48 @@ void ReadAllSettingsFromSPIFFS() {
   bDayLightSavingTime = read_spiffs_prefs("DayLightSavingTime");
   bProgrammi = read_spiffs_prefs("Programmi");
   setpoint=read_spiffs_prefs("Setpoint");
+  S_setpoint_WBS=setpoint;//to WBServer
   sensoreattivo=read_spiffs_prefs("SensoreAttivo");
+  S_sensoreattivo_WBS=sensoreattivo;
+  numerovalvole=read_spiffs_prefs("NumeroValvole");
+  S_numerovalvole_WBS=numerovalvole;
+  
 }
 
+void LeggiSensore() {
+  if (sensoreattivo == 1) {
+          S_sensoreattivo_WBS = sensoreattivo;
+          Logic_T53(SLOT_IGROMETRO);
+      
+          analogValue = analogRead(A0); // read the analog signal
+      
+          // convert the analog signal to voltage
+          // the ESP2866 A0 reads between 0 and ~3 volts, producing a corresponding value
+          // between 0 and 1024. The equation below will convert the value to a voltage value.
+      
+          analogVolts = (analogValue * 3.08) / 1024;
+        
+          // now get our chart value by converting the analog (0-1024) value to a value between 0 and 100.
+          // the value of 400 was determined by using a dry moisture sensor (not in soil, just in air).
+          // When dry, the moisture sensor value was approximately 400. This value might need adjustment
+          // for fine tuning of the chartValue.
+        
+          sensorValue = (analogValue * 100) / 1024; //with above 400 is not good, using 1024
+        
+          // now reverse the value so that the value goes up as moisture increases
+          // the raw value goes down with wetness, we want our chart to go up with wetness
+          sensorValue = 100 - sensorValue;
+      
+          
+          SERIAL_OUT.print("Valore Igrometro : "); SERIAL_OUT.println(sensorValue); //Stampa a schermo il valore
+          
+          ImportAnalog(SLOT_IGROMETRO,&sensorValue);
+          S_humidity_WBS=sensorValue;//to WBServer
+          S_setpoint_WBS=setpoint;//to WBServer
+     }
+     else 
+     {
+      S_sensoreattivo_WBS =0;
+     }
+}
 

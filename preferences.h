@@ -15,6 +15,8 @@
 #define PROGRAMMI 1 // Programmi attivi
 #define SETPOINT 50
 #define SENSOREATTIVO 1
+#define NUMEROVALVOLE 2
+
 
 
 //WIFI CONNECTION
