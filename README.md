@@ -1,5 +1,6 @@
 # souliss-smart-irrigation-WiFi
 ESP8266 WiFi Smart Irrigation System based on Souliss IoT Framework
+![screenshot](https://github.com/dariocdj/souliss-smart-irrigation-WiFi/blob/master/screenshot1.png?raw=true "screenshot")
 
 # Bill of Material:
 
