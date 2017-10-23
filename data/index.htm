@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <html>
@@ -12,7 +11,7 @@
 
 <script type="text/javascript">
 
-//cdj per mostrare orologio
+	// per mostrare orologio
 
       var controllodata, orasolare,zona ;
       $(document).ready(function() {		
@@ -36,7 +35,16 @@
 				});
 								
 			});
-//cdj
+	
+	//per blinkare programma attivo
+	$(document).ready(function() {
+    var f = document.getElementById('nomeprogrammaattivo');
+    setInterval(function() {
+        f.style.display = (f.style.display == 'none' ? '' : 'none');
+    }, 1000); 
+    
+});
+
 
 
 
@@ -74,8 +82,12 @@
           if(xh.status == 200) {
             console.log("Entrati",xh.responseText)
             var res = JSON.parse(xh.responseText);
-	    console.log(res);
-	    
+
+		document.getElementById("versione").innerHTML =  "<p>"+res.S_version_WBS;	  
+	  
+	    if (res.S_nomeprogramma_WBS !="0") 
+		document.getElementById ("nomeprogrammaattivo").innerHTML = "PROGRAMMA ATTIVO: <p>"+res.S_nomeprogramma_WBS+"</p>";
+		console.log(res);
 		if (res.S_sensoreattivo_WBS == 1 ) {
 		document.getElementById ("hum").innerHTML = parseFloat(res.S_humidity_WBS).toFixed(1);//centrale
 		document.getElementById ("spoint").innerHTML = parseFloat(res.S_setpoint_WBS).toFixed(0); //setpoint
@@ -295,8 +307,18 @@
 					<td width="50%" id="valv8" name="valv8"></td>
 				</tr>
 			</table>
-			<br>
+			<table height="130">			
+			<tr><td><p></td></tr>
+				<tr>
+				<td align="center"><p></td>
+				<td id="nomeprogrammaattivo"></td>
+				<td align="center"><p></td>
+				</tr>	
+			</table>
+			</tr>	
+			
 			<table id="pulsanti" style="margin:0 auto;">
+
 				<tr>
 				</tr>
 				<tr>
@@ -323,10 +345,11 @@
 					</select>
 				</td>
 				*/</script>
-				</tr>	
+				
+			
 				<tr>
 				<td align="center"><p></td>
-				<td align="center"><p>V.0.1alpha</td>
+				<td align="center" id="versione"><p></td>
 				<td align="center"><p></td>
 				</tr>
 			

@@ -37,7 +37,11 @@
                             var filename = this.url;
                             (filename.indexOf('?') > -1) &&
                                     (filename = filename.substr(0,filename.indexOf('?')));
-                            if (jd.TuttiGiorni == 1) {
+                            
+							//Inizio = jd.Inizio.replace("-", ":");
+							//Fine = jd.Fine.replace("-", ":");
+							
+							if (jd.TuttiGiorni == 1) {
                                 giorni = 'Tutti';
                             } else {
                                 (jd.Lunedi == 1) &&
