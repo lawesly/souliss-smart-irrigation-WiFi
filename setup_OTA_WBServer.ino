@@ -245,6 +245,10 @@ void setup_OTA_WBServer(){
     json += ", \"S_rele6status_WBS\":" +String(S_rele6status_WBS);
     json += ", \"S_rele7status_WBS\":" +String(S_rele7status_WBS);
     json += ", \"S_rele8status_WBS\":" +String(S_rele8status_WBS);
+    json += ", \"S_sensoreattivo_WBS\":" +String(S_sensoreattivo_WBS);
+    json += ", \"S_numerovalvole_WBS\":" +String(S_numerovalvole_WBS);
+    json += ", \"S_nomeprogramma_WBS\":" +String(S_nomeprogramma_WBS);
+    json += ", \"S_version_WBS\":" +String(S_version_WBS);
     json += "}";
     Serial.printf("Json: \n");
     request->send(200, "application/json", json);
@@ -392,6 +396,7 @@ if(request->hasParam("file")) {
     if(final)
       Serial.printf("UploadEnd: %s (%u)\n", filename.c_str(), index+len);
   });
+  
   server.onRequestBody([](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total){
       AsyncWebHeader* h = request->getHeader("Referer");
       Serial.printf("MyHeader: %s\n", h->value().c_str());
@@ -414,10 +419,10 @@ if(request->hasParam("file")) {
               Serial.println("file open failed");
             fsUploadFile.printf("%s",(const char*)data);  
             if(index + len == total)
-              Serial.printf("BodyEnd: %u\n", total);
+              //Serial.printf("BodyEnd: %u\n", total);
               fsUploadFile.close();
               delay (1000);
-              request->redirect("/salvato.htm");
+              request->redirect("/salvatosetting.htm");
               delay (1000);
               ReadAllSettingsFromSPIFFS();
         } 
@@ -438,10 +443,10 @@ if(request->hasParam("file")) {
               Serial.println("file open failed");
             fsUploadFile.printf("%s",(const char*)data);  
             if(index + len == total)
-              Serial.printf("BodyEnd: %u\n", total);
+              //Serial.printf("BodyEnd: %u\n", total);
               fsUploadFile.close();
-              delay (2000);
-              request->redirect("/salvato.htm");
+              delay (1000);
+              request->redirect("/salvatoprogramma.htm");
               delay (1000);
               // qui sicuramente andrà la funzione per ricaricare i programmi dopo averli modificati ed attivarli....
               //ReadAllSettingsFromSPIFFS();
@@ -456,7 +461,7 @@ if(request->hasParam("file")) {
                   //Serial.println("Ecco i file:");
                   String str = "";
                   Dir dir = SPIFFS.openDir("/programs/");
-                  
+                  //funzione per trovare prossimo numero per filename del programma
                   int max_num = 0;
                   while (dir.next()) {
                   //Serial.println(dir.fileName());
@@ -467,23 +472,22 @@ if(request->hasParam("file")) {
                         }
                   }
             //Serial.print("Max is: ");Serial.println(max_num);
-
             
              if(!index)
             Serial.printf("Request : ",request);
             Serial.printf("BodyStart: %u\n", index);
             Serial.printf("%s", (const char*)data);
             String S_filena_WBS = "/programs/ssi_program" + String(++max_num) + ".json";
-            Serial.print("Prossimo file da salvare: ");Serial.println(S_filena_WBS);
+            //Serial.print("Prossimo file da salvare: ");Serial.println(S_filena_WBS);
             fsUploadFile = SPIFFS.open(S_filena_WBS, "w");
             if (!fsUploadFile) 
               Serial.println("file open failed");
             fsUploadFile.printf("%s",(const char*)data);  
             if(index + len == total)
-              Serial.printf("BodyEnd: %u\n", total);
+              //Serial.printf("BodyEnd: %u\n", total);
               fsUploadFile.close();
-              delay (2000);
-              request->redirect("/salvato.htm");
+              delay (1000);
+              request->redirect("/salvatoprogramma.htm");
               delay (1000);
             } 
 });

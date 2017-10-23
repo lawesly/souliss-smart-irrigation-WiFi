@@ -48,7 +48,20 @@
 					else{
 					 $("#orasolare").attr("checked", false);
 					 }
-
+		if (jd.NumeroValvole == 2) {
+					$("#duevalvole").attr("checked", true);
+					document.getElementById("duevalvole").value="2";
+					}
+		if (jd.NumeroValvole == 4) {
+					$("#quattrovalvole").attr("checked", true);
+					document.getElementById("quattrovalvole").value="4";
+					}
+		if (jd.NumeroValvole == 8) {
+					$("#ottovalvole").attr("checked", true);
+					document.getElementById("ottovalvole").value="8";
+					}
+					
+					 
 				document.getElementById ("temp").value = jd.Setpoint;
 				$("#lumi").slider('value',jd.Setpoint);
 				});
@@ -82,6 +95,7 @@
 		DayLightSavingTime=0;
 		Programmi=0;
 		SensoreAttivo=0;
+		NumeroValvole=0;
 		// Assegnamo i dati 
 		if(document.getElementById("orologio").checked){
 			Orologio=1;
@@ -95,10 +109,19 @@
 		if(document.getElementById("sensoreattivo").checked){
 			SensoreAttivo=1;
 			}
+		if(document.getElementById("duevalvole").value){
+			NumeroValvole=2;
+			}
+		if(document.getElementById("quattrovalvole").checked){
+			NumeroValvole=4;
+			}
+		if(document.getElementById("ottovalvole").checked){
+			NumeroValvole=8;
+			}
 		Setpoint= document.getElementById ("temp").value;
 		Tzone=document.getElementById("timezone").value;
 		
-		sched_json="{ \"Orologio\": "+Orologio+" , \"Tzone\": "+Tzone+",\"DayLightSavingTime\": "+DayLightSavingTime+"  ,\"Setpoint\": "+Setpoint+" , \"Programmi\": "+Programmi+", \"SensoreAttivo\": "+SensoreAttivo+" }\n";
+		sched_json="{ \"Orologio\": "+Orologio+" , \"Tzone\": "+Tzone+",\"DayLightSavingTime\": "+DayLightSavingTime+"  ,\"Setpoint\": "+Setpoint+" , \"Programmi\": "+Programmi+", \"SensoreAttivo\": "+SensoreAttivo+", \"NumeroValvole\": "+NumeroValvole+" }\n";
 		console.log(sched_json);
 				
 		//salviamo m andando in POST
@@ -113,6 +136,23 @@
 		});
 		//window.location.reload();
 	 }
+	 
+	 function ckChange(ckType) {
+	  var ckName = document.getElementsByName(ckType.name);
+
+	  for (var i = 0; i < ckName.length; i++) {
+		if (!ckType.checked) {
+		  ckName[i].disabled = false;
+		} else {
+		  if (!ckName[i].checked) {
+			ckName[i].disabled = true;
+		  } else {
+			ckName[i].disabled = false;
+		  }
+		}
+	  }
+
+	}
       </script>
    <style>
   		input[type="submit"] {
@@ -148,7 +188,7 @@
 			<fieldset>
 			<legend align="center" style="font-family:Comfortaa;">Dispositivo</legend>
 					Orologio<input type="checkbox" id="orologio" name="orologio" value="off" style="font-family:Comfortaa;"/>
-					Ora Solare<input type="checkbox" id="orasolare" name="orasolare" value="off" style="font-family:Comfortaa;" /> 
+					Ora Legale<input type="checkbox" id="orasolare" name="orasolare" value="off" style="font-family:Comfortaa;" /> 
 					Programmazione<input type="checkbox" id="programmazione" name="programmazione" value="off" style="font-family:Comfortaa;" /> 
 					&nbsp&nbsp&nbsp&nbsp
 		  </fieldset>	
@@ -163,6 +203,16 @@
 				<option value="-8" style="font-family:Comfortaa;">Pacific Standard Time (USA)</option>
 				<option value="-7" style="font-family:Comfortaa;">Pacific Daylight Time (USA)</option>
 			</select>
+		</tr>
+		<tr>
+			<fieldset>
+			<legend align="center" style="font-family:Comfortaa;">Numero Valvole</legend>
+			 
+			  <input type="radio" name="numerovalvole" value="2" id="duevalvole">2
+			  <input type="radio" name="numerovalvole" value="4" id="quattrovalvole">4
+			  <input type="radio" name="numerovalvole" value="8" id="ottovalvole">8
+			  
+			  &nbsp&nbsp&nbsp&nbsp
 		</tr>
 		<tr>
 			<fieldset>

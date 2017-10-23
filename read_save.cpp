@@ -4,7 +4,7 @@
 #include "FS.h"
 #include <ArduinoJson.h>
 
-void save_spiffs_prefs(int json_bClock, int json_timeZone, int json_DayLightSavingTime, int json_bProgrammi, float json_setpoint, int json_SensoreAttivo) {
+void save_spiffs_prefs(int json_bClock, int json_timeZone, int json_DayLightSavingTime, int json_bProgrammi, float json_setpoint, int json_SensoreAttivo, int json_NumeroValvole) {
   SPIFFS.begin();
   StaticJsonBuffer<200> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
@@ -14,6 +14,7 @@ void save_spiffs_prefs(int json_bClock, int json_timeZone, int json_DayLightSavi
   root["Programmi"] = json_bProgrammi;
   root["Setpoint"] = json_setpoint;
   root["SensoreAttivo"] = json_setpoint;
+  root["NumeroValvole"] = json_setpoint;
   Serial.print("Ecco i dati in json: ");
   root.printTo(Serial);
   char buffer[256];
@@ -52,8 +53,10 @@ int read_spiffs_prefs(const char*  valuedaleggere) {
   }
   //leggo il valore e lo parso:
   int risultatoparsed = root_inlettura[valuedaleggere];
+  #ifdef DEBUG
   Serial.print("Spiffs Json parsed value of "); Serial.print(valuedaleggere); Serial.print(" :");
   Serial.println(risultatoparsed);
+  #endif
   ssi_spiffs_inlettura.close();
   return risultatoparsed;
 }

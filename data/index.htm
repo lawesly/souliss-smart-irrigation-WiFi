@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <html>
@@ -12,7 +11,7 @@
 
 <script type="text/javascript">
 
-//cdj per mostrare orologio
+	// per mostrare orologio
 
       var controllodata, orasolare,zona ;
       $(document).ready(function() {		
@@ -36,7 +35,16 @@
 				});
 								
 			});
-//cdj
+	
+	//per blinkare programma attivo
+	$(document).ready(function() {
+    var f = document.getElementById('nomeprogrammaattivo');
+    setInterval(function() {
+        f.style.display = (f.style.display == 'none' ? '' : 'none');
+    }, 1000); 
+    
+});
+
 
 
 
@@ -74,67 +82,126 @@
           if(xh.status == 200) {
             console.log("Entrati",xh.responseText)
             var res = JSON.parse(xh.responseText);
-	    console.log(res);
-	    document.getElementById ("hum").innerHTML = parseFloat(res.S_humidity_WBS).toFixed(1);//centrale
-      document.getElementById ("spoint").innerHTML = parseFloat(res.S_setpoint_WBS).toFixed(0); //setpoint
-            
-			if (res.S_rele1status_WBS==1){
-			document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
-			else 
-			{
-			document.getElementById ("valv1").innerHTML = "V.1: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1ON\";' />";
+
+		document.getElementById("versione").innerHTML =  "<p>"+res.S_version_WBS;	  
+	  
+	    if (res.S_nomeprogramma_WBS !="0") 
+		document.getElementById ("nomeprogrammaattivo").innerHTML = "PROGRAMMA ATTIVO: <p>"+res.S_nomeprogramma_WBS+"</p>";
+		console.log(res);
+		if (res.S_sensoreattivo_WBS == 1 ) {
+		document.getElementById ("hum").innerHTML = parseFloat(res.S_humidity_WBS).toFixed(1);//centrale
+		document.getElementById ("spoint").innerHTML = parseFloat(res.S_setpoint_WBS).toFixed(0); //setpoint
+        }
+		else
+		{
+		document.getElementById ("hum").innerHTML = "DIS.";//centrale
+		document.getElementById ("spoint").innerHTML = "XX"; //setpoint
+		}	
+			if (res.S_numerovalvole_WBS==2){
+						if (res.S_rele1status_WBS==1){
+						document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
+						else 
+						{
+						document.getElementById ("valv1").innerHTML = "V.1: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1ON\";' />";
+						}
+						if (res.S_rele2status_WBS==1){
+						document.getElementById ("valv2").innerHTML = "V.2: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv2").innerHTML = "V.2: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2ON\";' />";
+						}
+			}		
+			if (res.S_numerovalvole_WBS==4){
+						if (res.S_rele1status_WBS==1){
+						document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
+						else 
+						{
+						document.getElementById ("valv1").innerHTML = "V.1: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1ON\";' />";
+						}
+						if (res.S_rele2status_WBS==1){
+						document.getElementById ("valv2").innerHTML = "V.2: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv2").innerHTML = "V.2: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2ON\";' />";
+						}
+						if (res.S_rele3status_WBS==1){
+						document.getElementById ("valv3").innerHTML = "V.3: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv3").innerHTML = "V.3: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3ON\";' />";
+						}
+					
+						if (res.S_rele4status_WBS==1){
+						document.getElementById ("valv4").innerHTML = "V.4: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv4").innerHTML = "V.4: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4ON\";' />";
+						}
 			}
-			if (res.S_rele2status_WBS==1){
-			document.getElementById ("valv2").innerHTML = "V.2: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2OFF\";' />";
+			if (res.S_numerovalvole_WBS==8){
+						if (res.S_rele1status_WBS==1){
+						document.getElementById ("valv1").innerHTML = "V.1: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1OFF\";' />";}
+						else 
+						{
+						document.getElementById ("valv1").innerHTML = "V.1: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola1ON\";' />";
+						}
+						if (res.S_rele2status_WBS==1){
+						document.getElementById ("valv2").innerHTML = "V.2: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv2").innerHTML = "V.2: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2ON\";' />";
+						}
+						if (res.S_rele3status_WBS==1){
+						document.getElementById ("valv3").innerHTML = "V.3: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv3").innerHTML = "V.3: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3ON\";' />";
+						}
+					
+						if (res.S_rele4status_WBS==1){
+						document.getElementById ("valv4").innerHTML = "V.4: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv4").innerHTML = "V.4: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4ON\";' />";
+						}
+					  
+					  if (res.S_rele5status_WBS==1){
+						document.getElementById ("valv5").innerHTML = "V.5: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola5OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv5").innerHTML = "V.5: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola5ON\";' />";
+						}
+					  if (res.S_rele6status_WBS==1){
+						document.getElementById ("valv6").innerHTML = "V.6: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola6OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv6").innerHTML = "V.6: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola6ON\";' />";
+						}
+					  if (res.S_rele7status_WBS==1){
+						document.getElementById ("valv7").innerHTML = "V.7: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola7OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv7").innerHTML = "V.7: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola7ON\";' />";
+						}
+					  if (res.S_rele8status_WBS==1){
+						document.getElementById ("valv8").innerHTML = "V.8: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola8OFF\";' />";
+						}
+						else
+						{
+						document.getElementById ("valv8").innerHTML = "V.8: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola8ON\";' />";
+						}
 			}
-			else
-			{
-			document.getElementById ("valv2").innerHTML = "V.2: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola2ON\";' />";
-			}
-			if (res.S_rele3status_WBS==1){
-			document.getElementById ("valv3").innerHTML = "V.3: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv3").innerHTML = "V.3: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola3ON\";' />";
-			}
-		
-			if (res.S_rele4status_WBS==1){
-			document.getElementById ("valv4").innerHTML = "V.4: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv4").innerHTML = "V.4: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola4ON\";' />";
-			}
-		  
-		  if (res.S_rele5status_WBS==1){
-			document.getElementById ("valv5").innerHTML = "V.5: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola5OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv5").innerHTML = "V.5: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola5ON\";' />";
-			}
-		  if (res.S_rele6status_WBS==1){
-			document.getElementById ("valv6").innerHTML = "V.6: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola6OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv6").innerHTML = "V.6: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola6ON\";' />";
-			}
-		  if (res.S_rele7status_WBS==1){
-			document.getElementById ("valv7").innerHTML = "V.7: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola7OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv7").innerHTML = "V.7: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola7ON\";' />";
-			}
-		  if (res.S_rele8status_WBS==1){
-			document.getElementById ("valv8").innerHTML = "V.8: On <input type='image' width=25 height=25 src='img/irrigazioneON.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola8OFF\";' />";
-			}
-			else
-			{
-			document.getElementById ("valv8").innerHTML = "V.8: Off <input type='image' width=25 height=25 src='img/irrigazioneOFF.png' alt='Irrigazione Manuale ON' onclick='window.location = \"./valvola8ON\";' />";
-			}
+			
 		      } else running = false;
         }
       };
@@ -176,7 +243,13 @@
 		
 		minuti= data.getMinutes();
 		if (controllodata==1)
-		document.getElementById("oggi").innerHTML =  gg + mm + aaaa + " " + ore+ ":" +minuti;
+			if (isMobile) {
+			document.getElementById("oggi").innerHTML =  gg + mm + aaaa;
+			}
+			else
+			{
+			document.getElementById("oggi").innerHTML =  gg + mm + aaaa + " " + ore+ ":" +minuti;
+			}
 		else
 		document.getElementById("oggi").innerHTML =  "<p>";
 		
@@ -234,8 +307,20 @@
 					<td width="50%" id="valv8" name="valv8"></td>
 				</tr>
 			</table>
+			<table height="130">			
+			<tr><td><p></td></tr>
+				<tr>
+				<td align="center"><p></td>
+				<td id="nomeprogrammaattivo"></td>
+				<td align="center"><p></td>
+				</tr>	
+			</table>
+			</tr>	
 			
 			<table id="pulsanti" style="margin:0 auto;">
+
+				<tr>
+				</tr>
 				<tr>
 				<td>	
 					<input type="submit" value="Setting" onclick="window.location = './setting.htm';">
@@ -260,10 +345,11 @@
 					</select>
 				</td>
 				*/</script>
-				</tr>	
+				
+			
 				<tr>
 				<td align="center"><p></td>
-				<td align="center"><p>V.0.1alpha</td>
+				<td align="center" id="versione"><p></td>
 				<td align="center"><p></td>
 				</tr>
 			
