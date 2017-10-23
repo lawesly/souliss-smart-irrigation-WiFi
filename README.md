@@ -3,17 +3,17 @@ ESP8266 WiFi Smart Irrigation System based on Souliss IoT Framework
 
 # Bill of Material:
 
-n.1 PCB
-n.1 Esp-12 E/F 
-n.1 resistor 1k 
-n.1 cap 1000mf 
-n.1 2/4/8 relay board (optoisolated) 
-n.1 Soil Hygrometer Humidity Detection Module (optional)
-n.1 LM2596 step down dc-dc board
-n.1 AMS1117 3.3v
-n.2/4/8 12v valve like FPD-270A
-n.1 12v power supply (2/4A)
-n.1 enclosure ip68
+- n.1 PCB
+- n.1 Esp-12 E/F 
+- n.1 resistor 1k 
+- n.1 cap 1000mf 
+- n.1 2/4/8 relay board (optoisolated) 
+- n.1 Soil Hygrometer Humidity Detection Module (optional)
+- n.1 LM2596 step down dc-dc board
+- n.1 AMS1117 3.3v
+- n.2/4/8 12v valve like FPD-270A
+- n.1 12v power supply (2/4A)
+- n.1 enclosure ip68
 
 # How to connect your system:
 
