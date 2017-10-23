@@ -35,4 +35,7 @@ ESP8266 WiFi Smart Irrigation System based on Souliss IoT Framework
 
 That's all folks!!!
 
-# Power up your system:
+# Know bugs:
+- Programs from 23.59 to 00.00 doesn't work 
+- Program with overlapping valves pheraps can't work well in the minute of ending active program
+

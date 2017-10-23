@@ -247,6 +247,8 @@ void setup_OTA_WBServer(){
     json += ", \"S_rele8status_WBS\":" +String(S_rele8status_WBS);
     json += ", \"S_sensoreattivo_WBS\":" +String(S_sensoreattivo_WBS);
     json += ", \"S_numerovalvole_WBS\":" +String(S_numerovalvole_WBS);
+    json += ", \"S_nomeprogramma_WBS\":" +String(S_nomeprogramma_WBS);
+    json += ", \"S_version_WBS\":" +String(S_version_WBS);
     json += "}";
     Serial.printf("Json: \n");
     request->send(200, "application/json", json);

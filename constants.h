@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 
-#define VERSION "v0.1alpha"
+#define VERSION "v0.2alpha"
 #define HOSTNAME "SSI-Irrigation-OTA-" ///< Hostename. The setup_OTA_WBServer function adds the Chip ID at the end.
 #define SERIAL_OUT Serial
-
+#define DEBUG 1
 
 //IGROMETRO
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

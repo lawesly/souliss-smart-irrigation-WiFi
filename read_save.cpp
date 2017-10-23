@@ -53,8 +53,10 @@ int read_spiffs_prefs(const char*  valuedaleggere) {
   }
   //leggo il valore e lo parso:
   int risultatoparsed = root_inlettura[valuedaleggere];
+  #ifdef DEBUG
   Serial.print("Spiffs Json parsed value of "); Serial.print(valuedaleggere); Serial.print(" :");
   Serial.println(risultatoparsed);
+  #endif
   ssi_spiffs_inlettura.close();
   return risultatoparsed;
 }

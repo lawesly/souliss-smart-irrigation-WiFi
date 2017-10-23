@@ -15,5 +15,4 @@ String printDigits(int);
 int getNTPday();
 int getNTPhour();
 int getNTPminute();
-
 void initNTP();

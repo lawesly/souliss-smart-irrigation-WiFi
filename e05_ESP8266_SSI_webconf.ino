@@ -83,6 +83,9 @@ String S_humidity_WBS="58.8";
 bool S_sensoreattivo_WBS=0;
 int S_numerovalvole_WBS=0;
 String S_filena_WBS;
+String S_nomeprogramma_WBS="0";
+String S_version_WBS="";
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 float setpoint=0;
@@ -94,6 +97,7 @@ int tZone;
 boolean bDayLightSavingTime;
 boolean sensoreattivo;
 int numerovalvole;
+int ManualMode =1;
 
 void setup()
 {
@@ -204,6 +208,11 @@ void setup()
   //OTA-WBServer  
   setup_OTA_WBServer();
 
+  //VERSION
+  S_version_WBS="\"";
+  S_version_WBS+=VERSION;
+  S_version_WBS+="\"";
+  
  
  
 }
@@ -288,14 +297,18 @@ void loop()
        SLOW_x10s(59){
       //DATALOGGER
       save_datalogger(setpoint,sensorValue,S_rele1status_WBS,S_rele2status_WBS,S_rele3status_WBS,S_rele4status_WBS,S_rele5status_WBS,S_rele6status_WBS,S_rele7status_WBS,S_rele8status_WBS);
-    }
+      }
 
- SLOW_x10s(61){
-    
-    ReadAllSettingsFromSPIFFS();
-    LeggiSensore();
-  }
-    
+     SLOW_x10s(61){
+        
+        ReadAllSettingsFromSPIFFS();
+        LeggiSensore();
+     }
+
+
+    SLOW_x10s(2){
+    Irriga();  
+    }
        
        SLOW_10s() {        // We handle the light timer with a 10 seconds base time
            
@@ -320,8 +333,11 @@ void loop()
             Timer_T11(RELE_6);
             Timer_T11(RELE_7);
             Timer_T11(RELE_8);
-            };            
+            }; 
+
+                     
        }
+       
       SLOW_15m() {
         //NTP
         yield();
@@ -499,4 +515,247 @@ void LeggiSensore() {
       S_sensoreattivo_WBS =0;
      }
 }
+
+int leggidaprogramma(const char*  valuedaleggere, String nomefiledaleggere) {
+  File  sst_spiffs_inlettura = SPIFFS.open(nomefiledaleggere, "r");
+  if (!sst_spiffs_inlettura) {
+    #ifdef DEBUG
+    Serial.println("ssi_program1.json open failed");
+    #endif
+    return 0;
+  }
+  String risultato = sst_spiffs_inlettura.readStringUntil('\n');
+  //Serial.print("Ho letto dal file programma : ");Serial.println(risultato);
+  char json[500];
+  risultato.toCharArray(json, 500);
+  //Serial.print("Ecco l'array json convertito: ");Serial.println(json);
+  StaticJsonBuffer<500> jsonBuffer_inlettura;
+  JsonObject& root_inlettura = jsonBuffer_inlettura.parseObject(json);
+  if (!root_inlettura.success()) {
+    #ifdef DEBUG
+    Serial.println("parseObject() failed");
+    #endif
+    return 0;
+  }
+  //leggo il valore e lo parso:
+  int risultatoparsed = root_inlettura[valuedaleggere];
+  #ifdef DEBUG
+  //Serial.print("Spiffs Json parsed value of "); Serial.print(valuedaleggere); Serial.print(" :");
+  //Serial.println(risultatoparsed);
+  #endif
+  sst_spiffs_inlettura.close();
+  return risultatoparsed;
+}
+
+String leggistringadaprogramma(const char*  valuedaleggere, String nomefiledaleggere) {
+  File  sst_spiffs_inlettura = SPIFFS.open(nomefiledaleggere, "r");
+  if (!sst_spiffs_inlettura) {
+    #ifdef DEBUG
+    Serial.println("ssi_program1.json open failed");
+    #endif
+    return "";
+  }
+  String risultato = sst_spiffs_inlettura.readStringUntil('\n');
+  //Serial.print("Ho letto dal file programma : ");Serial.println(risultato);
+  char json[500];
+  risultato.toCharArray(json, 500);
+  //Serial.print("Ecco l'array json convertito: ");Serial.println(json);
+  StaticJsonBuffer<500> jsonBuffer_inlettura;
+  JsonObject& root_inlettura = jsonBuffer_inlettura.parseObject(json);
+  if (!root_inlettura.success()) {
+    Serial.println("parseObject() failed");
+    return "";
+  }
+  //leggo il valore e lo parso:
+  String risultatoparsed = root_inlettura[valuedaleggere];
+  #ifdef DEBUG
+  //Serial.print("Spiffs Json parsed value of "); Serial.print(valuedaleggere); Serial.print(" :");
+  //Serial.println(risultatoparsed);
+  #endif
+  sst_spiffs_inlettura.close();
+  return risultatoparsed;
+}
+
+
+
+void Irriga() {
+  if (((sensoreattivo == 1) && (sensorValue <= setpoint)) || (sensoreattivo == 0)) {
+
+    String s="";
+    int dayweek = getNTPday();
+    int hourday = getNTPhour();
+    int minuteday = getNTPminute();  
+
+       if (read_spiffs_prefs("Programmi") == 1) {
+        #ifdef DEBUG 
+        Serial.println("La Programmazione nei settaggi e' attiva..."); 
+        #endif
+
+          String NomeFileProgramma = "";
+          Dir dir = SPIFFS.openDir("/programs/");
+          while (dir.next()) {
+          NomeFileProgramma = dir.fileName();
+           #ifdef DEBUG 
+           SERIAL_OUT.print("Sto leggendo il programma : ");Serial.println(NomeFileProgramma);
+           #endif
+           if ( leggidaprogramma("Attivo",NomeFileProgramma ) == 1)  {
+             #ifdef DEBUG 
+             SERIAL_OUT.println("Il programma e' attivo!");
+             SERIAL_OUT.print("Oggi e il giorno numero :");Serial.println(dayweek); //1 = domenica, 2=lunedi, 7=sabato
+             #endif 
+            
+                  if ( (leggidaprogramma("Domenica", NomeFileProgramma ) == 1 && dayweek ==1) || (leggidaprogramma("Lunedi", NomeFileProgramma) == 1 && dayweek ==2) || (leggidaprogramma("Martedi", NomeFileProgramma) == 1 && dayweek ==3) || (leggidaprogramma("Mercoledi", NomeFileProgramma) == 1 && dayweek ==4) || (leggidaprogramma("Giovedi", NomeFileProgramma) == 1 && dayweek ==5) || (leggidaprogramma("Venerdi",NomeFileProgramma) == 1 && dayweek ==6) ||(leggidaprogramma("Sabato", NomeFileProgramma) == 1 && dayweek ==7)  )
+                  {
+                         #ifdef DEBUG 
+                         SERIAL_OUT.println("Oggi e' un giorno programmato!");
+                         #endif
+                         //if (read_spiffs_prefs("DayLightSavingTime") == 0) 
+                         //hourday=hourday+1;
+                         
+                         String hourdayok ;
+                         String minutedayok ;
+                         if (hourday < 10) {
+                         hourdayok = "0" + String (hourday);
+                         }
+                         else
+                         {
+                         hourdayok= String (hourday);
+                         }
+                         if (minuteday < 10) {
+                         minutedayok = "0" + String (minuteday);
+                         }
+                         else
+                         {
+                         minutedayok= String (minuteday);
+                         }
+                         
+                         String oracorrente = hourdayok + minutedayok;
+                         
+                         #ifdef DEBUG 
+                         SERIAL_OUT.print("Sono le ore : ");  Serial.println(oracorrente);
+                         #endif
+                         leggistringadaprogramma("Programma",NomeFileProgramma);
+                         //Serial.print("Ora Inizio : ");Serial.println(leggistringadaprogramma("Inizio")); 
+                         String Inizio = leggistringadaprogramma("Inizio",NomeFileProgramma);
+                         Inizio.replace(":","");
+                         #ifdef DEBUG 
+                         SERIAL_OUT.print("Ora Inizio senza due punti : ");Serial.println(Inizio); 
+                         #endif
+                         //Serial.print("Ora Fine : ");Serial.println(leggistringadaprogramma("Fine")); // formato 00:00...vedi sopra
+                         String Fine = leggistringadaprogramma("Fine",NomeFileProgramma);
+                         Fine.replace(":","");
+                         #ifdef DEBUG 
+                         SERIAL_OUT.print("Ora Fine senza due punti : ");Serial.println(Fine); 
+                         //SERIAL_OUT.print("Controlliamo se sono in modo manuale : ");Serial.println(ManualMode); 
+                         #endif
+                         
+                               if ( oracorrente >= Inizio && oracorrente < Fine)  {
+                                  //if ( ManualMode ==1 ) {      
+                                      #ifdef DEBUG 
+                                      SERIAL_OUT.println("Sono nell'intervallo orario programmato, irrigo!");
+                                      //SERIAL_OUT.println("Spengo Modo Manuale!");
+                                      #endif
+                                       S_nomeprogramma_WBS ="\""+leggistringadaprogramma("Programma",NomeFileProgramma)+"<p>\"";
+                                     //  ManualMode = 0;
+                                      #ifdef DEBUG 
+                                     // SERIAL_OUT.print("RIControlliamo se sono in modo manuale :");Serial.println(ManualMode); 
+                                      #endif
+                                      
+                                        //nel json ho Valvola1 = 1, Valvola2= 0,quindi...
+                                        
+                                        if (leggidaprogramma("Valvola1",NomeFileProgramma) == 1) {
+                                          S_rele1status_WBS=1; mInput(SLOT_VALVOLA_1) = Souliss_T1n_OnCmd; Serial.println("Accendo Valvola 1");
+                                        } 
+                                
+                                        if (leggidaprogramma("Valvola2",NomeFileProgramma) == 1) {
+                                          S_rele2status_WBS=1; mInput(SLOT_VALVOLA_2) = Souliss_T1n_OnCmd; Serial.println("Accendo Valvola 2");
+                                        } 
+                                
+                                        if (leggidaprogramma("Valvola3",NomeFileProgramma) == 1) {
+                                          S_rele3status_WBS=1; mInput(SLOT_VALVOLA_3) = Souliss_T1n_OnCmd; Serial.println("Accendo Valvola 3");
+                                        } 
+                                
+                                        if (leggidaprogramma("Valvola4",NomeFileProgramma) == 1) {
+                                          S_rele4status_WBS=1; mInput(SLOT_VALVOLA_4) = Souliss_T1n_OnCmd; Serial.println("Accendo Valvola 4");
+                                        } 
+                                
+                                        if (leggidaprogramma("Valvola5",NomeFileProgramma) == 1) {
+                                          S_rele5status_WBS=1; mInput(SLOT_VALVOLA_5) = Souliss_T1n_OnCmd; Serial.println("Accendo Valvola 5");
+                                        } 
+                                
+                                        if (leggidaprogramma("Valvola6",NomeFileProgramma) == 1) {
+                                          S_rele6status_WBS=1; mInput(SLOT_VALVOLA_6) = Souliss_T1n_OnCmd; Serial.println("Accendo Valvola 6");
+                                        } 
+                                
+                                        if (leggidaprogramma("Valvola7",NomeFileProgramma) == 1) {
+                                          S_rele7status_WBS=1; mInput(SLOT_VALVOLA_7) = Souliss_T1n_OnCmd; Serial.println("Accendo Valvola 7");
+                                        } 
+                                
+                                        if (leggidaprogramma("Valvola8",NomeFileProgramma) == 1) {
+                                          S_rele8status_WBS=1; mInput(SLOT_VALVOLA_8) = Souliss_T1n_OnCmd; Serial.println("Accendo Valvola 8");
+                                        } 
+
+                                  }    //end se sei dentro l'intervallo dell'ora
+                                  else
+                                     {
+                                     Serial.println("Non sono nell'intervallo corrente, non irrigo!");
+                                     } //end se sei fuori l'intervallo dell'ora
+
+                                   if ( oracorrente == Fine)  {
+                                      #ifdef DEBUG 
+                                      SERIAL_OUT.print("Il programma ");SERIAL_OUT.print(NomeFileProgramma); SERIAL_OUT.println(" e' giunto alla fine, spengo valvole!");
+                                      #endif
+                                        if (leggidaprogramma("Valvola1",NomeFileProgramma) == 1) {
+                                          S_rele1status_WBS=0; mInput(SLOT_VALVOLA_1) = Souliss_T1n_OffCmd; Serial.println("Spengo Valvola 1");
+                                        } 
+                                
+                                        if (leggidaprogramma("Valvola2",NomeFileProgramma) == 1) {
+                                          S_rele2status_WBS=0; mInput(SLOT_VALVOLA_2) = Souliss_T1n_OffCmd; Serial.println("Spengo Valvola 2");
+                                        } 
+
+                                        if (leggidaprogramma("Valvola3",NomeFileProgramma) == 1) {
+                                          S_rele3status_WBS=1; mInput(SLOT_VALVOLA_3) = Souliss_T1n_OffCmd; Serial.println("Spengo Valvola 3");
+                                        } 
+                                        if (leggidaprogramma("Valvola4",NomeFileProgramma) == 1) {
+                                          S_rele4status_WBS=0; mInput(SLOT_VALVOLA_4) = Souliss_T1n_OffCmd; Serial.println("Spengo Valvola 4");
+                                        } 
+                                        if (leggidaprogramma("Valvola5",NomeFileProgramma) == 1) {
+                                          S_rele5status_WBS=0; mInput(SLOT_VALVOLA_5) = Souliss_T1n_OffCmd; Serial.println("Spengo Valvola 5");
+                                        } 
+                                        if (leggidaprogramma("Valvola6",NomeFileProgramma) == 1) {
+                                          S_rele6status_WBS=0; mInput(SLOT_VALVOLA_6) = Souliss_T1n_OffCmd; Serial.println("Spengo Valvola 6");
+                                        } 
+                                        if (leggidaprogramma("Valvola7",NomeFileProgramma) == 1) {
+                                          S_rele7status_WBS=0; mInput(SLOT_VALVOLA_7) = Souliss_T1n_OffCmd; Serial.println("Spengo Valvola 7");
+                                        }
+                                        if (leggidaprogramma("Valvola8",NomeFileProgramma) == 1) {
+                                          S_rele8status_WBS=0; mInput(SLOT_VALVOLA_8) = Souliss_T1n_OffCmd; Serial.println("Spengo Valvola 8");
+                                        }
+                                    }    //end se sei dentro l'intervallo dell'ora
+                                     
+                                    //}//end manual mode =1
+                                     else
+                                     {
+                                     Serial.println("Non sono alla fine di un programma, non spengo nulla !");
+                                     } //end se sei fuori l'intervallo dell'ora
+                        
+                  } //fine giorno programmato 1
+                  else
+                  {
+                     #ifdef DEBUG 
+                     Serial.println("Oggi non e' un giorno programmato, non irrigo!"); 
+                     #endif
+                     
+                  } //fine giorno programmato 0
+            
+          } //fine se programma attivo
+        } //fine while
+       } //fine se programmazione e' attiva
+  }//fine sensore attivo 1
+  else
+  {
+  #ifdef DEBUG Serial.println("Il Terreno e' bagnato, che devo irrigare a fare!"); 
+  #endif
+  } //fine sensore attivo 0
+} //fine irriga
 

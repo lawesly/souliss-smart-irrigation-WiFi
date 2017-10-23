@@ -140,6 +140,7 @@ int getNTPminute(){
   return minute();
 }
 
+
 void initNTP() {
 
   udp_NTP.begin(localPort);
